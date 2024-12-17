@@ -28,5 +28,9 @@ RUN poetry build && pip install dist/*.whl
 WORKDIR /app/family-ai-voice-assistant-tools
 RUN poetry build && pip install dist/*.whl
 
+RUN mkdir -p /configs
+RUN mkdir -p /resources
+RUN mkdir -p /logs
+RUN mkdir -p /data
 
-CMD ["start_family_ai_voice_assistant", "config.yaml"]
+CMD ["start_family_ai_voice_assistant", "/configs/config.yaml"]
