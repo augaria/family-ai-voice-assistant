@@ -1,0 +1,30 @@
+[tool.poetry]
+name = "family-ai-voice-assistant-impl"
+version = "0.1.0"
+description = ""
+authors = ["Augaria Ma <augaria@gmail.com>"]
+
+include = [
+    "family_ai_voice_assistant/impl/resources/**"
+]
+
+packages = [
+  { include = "family_ai_voice_assistant" }
+]
+
+[tool.poetry.dependencies]
+python = "<4.0,>=3.8"
+family-ai-voice-assistant-core = "*"
+pyaudio = "*"
+pvporcupine = "2.2.0"
+speechrecognition = "*"
+azure-cognitiveservices-speech = "*"
+openai = ">=1.0.0"
+scipy = "*"
+
+[tool.poetry.scripts]
+start_family_ai_voice_assistant = "family_ai_voice_assistant.basic_entry:main"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

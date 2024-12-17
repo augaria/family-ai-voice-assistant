@@ -1,0 +1,30 @@
+[tool.poetry]
+name = "family-ai-voice-assistant-core"
+version = "0.1.0"
+description = ""
+authors = ["Augaria Ma <augaria@gmail.com>"]
+readme = "README.md"
+
+include = [
+    "family_ai_voice_assistant/core/resources/**"
+]
+
+packages = [
+  { include = "family_ai_voice_assistant" }
+]
+
+[tool.poetry.dependencies]
+python = "<4.0,>=3.8"
+pyyaml = "*"
+pymongo = "*"
+pytz = "*"
+docstring-parser = "*"
+colorama = "*"
+opentelemetry-api = "*"
+opentelemetry-sdk = "*"
+opentelemetry-exporter-otlp = "*"
+evdev = { version = "*", markers = "sys_platform == 'linux'" }
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

@@ -1,0 +1,7 @@
+{
+    "SERVICE_START_MESSAGE": "Home robot {bot_name} at your service",
+    "BOT_HELLO_MESSAGE": "I'm here~",
+    "BOT_REST_MESSAGE": "I'm going to rest for now, feel free to ask me questions anytime~",
+    "BOT_ERROR_MESSAGE": "Sorry, I encountered an issue. Please ask me again~",
+    "SESSION_ERROR_MESSAGE": "Sorry, I can't answer this question right now. You can ask me other questions~"
+}

@@ -1,0 +1,5 @@
+{
+    "COUNTDOWN_MESSAGE": "倒计时的时间到了，请注意休息哦~",
+    "ALARM_MESSAGE": "闹钟时间到了, 现在是{time}, 请注意休息哦~",
+    "PAST_TIME_MESSAGE": "设定的时间已经过去了，请检查时间设置。"
+}

@@ -1,0 +1,26 @@
+[tool.poetry]
+name = "family-ai-voice-assistant-tools"
+version = "0.1.0"
+description = ""
+authors = ["Augaria Ma <augaria@gmail.com>"]
+readme = "README.md"
+
+include = [
+    "family_ai_voice_assistant/tools/resources/**"
+]
+
+packages = [
+  { include = "family_ai_voice_assistant" }
+]
+
+[tool.poetry.dependencies]
+python = "<4.0,>=3.8"
+family-ai-voice-assistant-core = "*"
+pymongo = "*"
+apscheduler = "*"
+google-search-results = "*"
+bs4 = "*"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

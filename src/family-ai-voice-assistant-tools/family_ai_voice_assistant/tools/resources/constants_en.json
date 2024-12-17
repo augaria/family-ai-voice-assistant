@@ -1,0 +1,5 @@
+{
+    "COUNTDOWN_MESSAGE": "Time's up for the countdown. Please take a break!",
+    "ALARM_MESSAGE": "It's alarm time now, the time is {time}. Please take a break!",
+    "PAST_TIME_MESSAGE": "The set time has already passed. Please check your time settings."
+}
