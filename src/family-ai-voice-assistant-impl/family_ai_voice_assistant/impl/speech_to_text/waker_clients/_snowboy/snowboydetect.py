@@ -7,8 +7,12 @@
 from sys import version_info as _swig_python_version_info  # noqa: F401
 # Import the low-level C/C++ module
 
-from .amd64 import _snowboydetect
 import builtins as __builtin__
+
+import platform
+architecture = platform.machine()
+if architecture == 'x86_64' or architecture == 'amd64':
+    from .amd64 import _snowboydetect
 
 
 def _swig_repr(self):
