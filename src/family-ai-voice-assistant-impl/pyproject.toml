@@ -6,7 +6,7 @@ authors = ["Augaria Ma <augaria@gmail.com>"]
 
 include = [
     "family_ai_voice_assistant/impl/resources/**",
-    "family_ai_voice_assistant/impl/speech_to_text/waker_clients/_snowboy/_snowboydetect.so"
+    "family_ai_voice_assistant/impl/speech_to_text/waker_clients/_snowboy/amd64/_snowboydetect.so"
 ]
 
 packages = [

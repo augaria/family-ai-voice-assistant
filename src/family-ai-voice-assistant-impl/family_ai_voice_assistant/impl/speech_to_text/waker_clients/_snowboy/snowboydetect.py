@@ -7,7 +7,7 @@
 from sys import version_info as _swig_python_version_info  # noqa: F401
 # Import the low-level C/C++ module
 
-from . import _snowboydetect
+from .amd64 import _snowboydetect
 import builtins as __builtin__
 
 
