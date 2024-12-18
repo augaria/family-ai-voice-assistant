@@ -9,6 +9,7 @@ RUN apt-get update && \
     portaudio19-dev \
     linux-headers-generic \
     build-essential \
+    libatlas-base-dev \
     && rm -rf /var/lib/apt/lists/*
 
 RUN pip install --no-cache-dir poetry
