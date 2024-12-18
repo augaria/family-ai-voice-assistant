@@ -13,6 +13,8 @@ import platform
 architecture = platform.machine()
 if architecture == 'x86_64' or architecture == 'amd64':
     from .amd64 import _snowboydetect
+elif architecture == 'aarch64' or architecture == 'arm64':
+    from .arm64 import _snowboydetect
 
 
 def _swig_repr(self):
@@ -110,7 +112,9 @@ class SnowboyDetect(object):
         return _snowboydetect.SnowboyDetect_ApplyFrontend(self, apply_frontend)
 
     def SampleRate(self):
-        return _snowboydetect.SnowboyDetect_SampleRate(self)
+        res = _snowboydetect.SnowboyDetect_SampleRate(self)
+        print(f"[[[SampleRate: {res}]]]")
+        return res
 
     def NumChannels(self):
         return _snowboydetect.SnowboyDetect_NumChannels(self)
