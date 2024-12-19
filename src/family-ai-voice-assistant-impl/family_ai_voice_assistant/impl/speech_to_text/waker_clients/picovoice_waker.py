@@ -43,5 +43,5 @@ class PicovoiceWaker(WakerClient):
         res = self._agent.process(audio_obj_unpacked) >= 0
         return res
 
-    def is_used_for_interrupting_ai_speeking() -> bool:
+    def is_used_for_interrupting_ai_speeking(self) -> bool:
         return False

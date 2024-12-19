@@ -19,7 +19,7 @@ class WakerClient(ABC):
         pass
 
     @abstractmethod
-    def is_used_for_interrupting_ai_speeking() -> bool:
+    def is_used_for_interrupting_ai_speeking(self) -> bool:
         pass
 
 
@@ -55,5 +55,5 @@ class KeyboardWaker(WakerClient):
 
         return False
 
-    def is_used_for_interrupting_ai_speeking() -> bool:
+    def is_used_for_interrupting_ai_speeking(self) -> bool:
         return True

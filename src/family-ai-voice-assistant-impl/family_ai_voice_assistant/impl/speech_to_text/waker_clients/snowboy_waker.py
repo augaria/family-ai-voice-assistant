@@ -21,24 +21,22 @@ class SnowboyWaker(WakerClient):
                 "../../resources/snowboy/models/snowboy.umdl"
             )
         self._detector = HotwordDetector(config.model_path, sensitivity=0.5)
-        self.interrupted = False
 
     def wake(self):
         WakerClient.is_waiting = True
-        self.interrupted = False
         self._detector.start(
             detected_callback=self._detected_callback,
-            interrupt_check=lambda: self.interrupted,
+            interrupt_check=lambda: not WakerClient.is_waiting,
             sleep_time=0.03
         )
         self._detector.terminate()
         WakerClient.is_waiting = False
 
     def _detected_callback(self):
-        self.interrupted = True
+        WakerClient.is_waiting = False
 
     def check(self) -> bool:
         pass
 
-    def is_used_for_interrupting_ai_speeking() -> bool:
+    def is_used_for_interrupting_ai_speeking(self) -> bool:
         return False
