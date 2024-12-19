@@ -10,6 +10,7 @@ RUN apt-get update && \
     portaudio19-dev \
     libatlas-base-dev \
     linux-headers-generic \
+    libasound2 \
     pulseaudio \
     && rm -rf /var/lib/apt/lists/*
 
@@ -28,5 +29,7 @@ RUN poetry build && pip install dist/*.whl
 
 WORKDIR /app/family-ai-voice-assistant-tools
 RUN poetry build && pip install dist/*.whl
+
+WORKDIR /app
 
 CMD ["start_family_ai_voice_assistant", "config.yaml"]

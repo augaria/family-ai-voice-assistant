@@ -36,7 +36,7 @@ def register_clients():
     if silent_waker:
         ClientManager().register_client(
             WakerClient,
-            ClientSelector().silent_waker
+            silent_waker
         )
     voice_waker = ClientSelector().voice_waker
     if voice_waker:
