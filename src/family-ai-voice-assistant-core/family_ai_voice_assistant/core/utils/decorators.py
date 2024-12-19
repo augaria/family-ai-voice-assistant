@@ -1,25 +1,9 @@
-import time
 import signal
 from typing import List
 import concurrent.futures
 import threading
 
 from ..clients.waker_client import WakerClient
-
-
-def timing(func):
-    def wrapper(*args, **kwargs):
-        start_time = time.time()
-        result = func(*args, **kwargs)
-        end_time = time.time()
-        elapsed_time = end_time - start_time
-        msg = (
-            f"Function '{func.__name__}' "
-            f"took {elapsed_time:.6f} seconds to run."
-        )
-        print(msg)
-        return result
-    return wrapper
 
 
 def timeout(seconds):

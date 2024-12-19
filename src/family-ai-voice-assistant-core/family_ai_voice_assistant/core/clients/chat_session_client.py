@@ -76,7 +76,7 @@ class ChatSessionClient:
     def add_tool_message(
         self,
         tool_name: str,
-        tool_call_id: str,
-        content: str
+        content: str,
+        tool_call_id: str = None
     ):
         pass

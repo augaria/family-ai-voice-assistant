@@ -31,13 +31,10 @@ class SnowboyWaker(WakerClient):
             interrupt_check=lambda: self.interrupted,
             sleep_time=0.03
         )
-        print("[detector start ended]")
         self._detector.terminate()
-        print("[detector terminated]")
         WakerClient.is_waiting = False
 
     def _detected_callback(self):
-        print("Wake word detected!")
         self.interrupted = True
 
     def check(self) -> bool:

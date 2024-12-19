@@ -5,42 +5,19 @@ import pyaudio
 from . import snowboydetect
 import time
 import wave
-from ctypes import *  # noqa: F403
-from contextlib import contextmanager
+
 
 from family_ai_voice_assistant.core.logging import Loggers
 from family_ai_voice_assistant.core.utils.common_utils import (
     get_absolute_path_based_on_reference_file
 )
+from family_ai_voice_assistant.core.utils.no_alsa_error import no_alsa_error
 
 logger = Loggers().waker
 RESOURCE_FILE = get_absolute_path_based_on_reference_file(
     __file__,
     "../../../resources/snowboy/common.res"
 )
-
-
-def py_error_handler(filename, line, function, err, fmt):
-    pass
-
-
-ERROR_HANDLER_FUNC = CFUNCTYPE(  # noqa: F405
-    None, c_char_p, c_int, c_char_p, c_int, c_char_p  # noqa: F405
-)
-
-c_error_handler = ERROR_HANDLER_FUNC(py_error_handler)
-
-
-@contextmanager
-def no_alsa_error():
-    try:
-        asound = cdll.LoadLibrary('libasound.so')  # noqa: F405
-        asound.snd_lib_error_set_handler(c_error_handler)
-        yield
-        asound.snd_lib_error_set_handler(None)
-    except Exception:
-        yield
-        pass
 
 
 class RingBuffer(object):
@@ -58,29 +35,6 @@ class RingBuffer(object):
         tmp = bytes(bytearray(self._buf))
         self._buf.clear()
         return tmp
-
-
-# def play_audio_file(fname=DETECT_DING):
-#     """Simple callback function to play a wave file. By default it plays
-#     a Ding sound.
-
-#     :param str fname: wave file name
-#     :return: None
-#     """
-#     ding_wav = wave.open(fname, 'rb')
-#     ding_data = ding_wav.readframes(ding_wav.getnframes())
-#     with no_alsa_error():
-#         audio = pyaudio.PyAudio()
-#     stream_out = audio.open(
-#         format=audio.get_format_from_width(ding_wav.getsampwidth()),
-#         channels=ding_wav.getnchannels(),
-#         rate=ding_wav.getframerate(), input=False, output=True)
-#     stream_out.start_stream()
-#     stream_out.write(ding_data)
-#     time.sleep(0.2)
-#     stream_out.stop_stream()
-#     stream_out.close()
-#     audio.terminate()
 
 
 class HotwordDetector(object):
@@ -131,6 +85,7 @@ class HotwordDetector(object):
         self.ring_buffer = RingBuffer(
             self.detector.NumChannels() * self.detector.SampleRate() * 5)
 
+    @no_alsa_error
     def start(self, detected_callback=None,
               interrupt_check=lambda: False,
               sleep_time=0.03,
@@ -170,8 +125,7 @@ class HotwordDetector(object):
             play_data = chr(0) * len(in_data)
             return play_data, pyaudio.paContinue
 
-        with no_alsa_error():
-            self.audio = pyaudio.PyAudio()
+        self.audio = pyaudio.PyAudio()
         self.stream_in = self.audio.open(
             input=True, output=False,
             format=self.audio.get_format_from_width(

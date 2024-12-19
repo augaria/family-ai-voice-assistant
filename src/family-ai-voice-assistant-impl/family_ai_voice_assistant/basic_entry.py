@@ -1,4 +1,5 @@
 import argparse
+import sounddevice  # noqa: F401 to avoid error when importing sound devices
 
 from family_ai_voice_assistant.core import set_yaml_config_path
 

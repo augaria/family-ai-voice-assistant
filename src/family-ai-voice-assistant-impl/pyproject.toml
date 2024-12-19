@@ -18,11 +18,13 @@ packages = [
 python = "<4.0,>=3.8"
 family-ai-voice-assistant-core = "*"
 pyaudio = "*"
+sounddevice = "*"
 pvporcupine = "2.2.0"
 speechrecognition = "*"
 azure-cognitiveservices-speech = "*"
 openai = ">=1.0.0"
 scipy = "*"
+ollama = "*"
 
 [tool.poetry.scripts]
 start_family_ai_voice_assistant = "family_ai_voice_assistant.basic_entry:main"

@@ -2,9 +2,11 @@ from dataclasses import dataclass
 from datetime import datetime
 from typing import Dict
 
+from .dict_convertible import DictConvertible
+
 
 @dataclass
-class ChatRecord:
+class ChatRecord(DictConvertible):
     session_id: str
     message: Dict[str, str]
     timestamp: datetime
@@ -13,7 +15,7 @@ class ChatRecord:
 
 
 @dataclass
-class SerilizableChatRecord:
+class SerilizableChatRecord(DictConvertible):
     session_id: str
     role: str
     name: str

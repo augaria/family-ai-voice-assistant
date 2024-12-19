@@ -112,9 +112,7 @@ class SnowboyDetect(object):
         return _snowboydetect.SnowboyDetect_ApplyFrontend(self, apply_frontend)
 
     def SampleRate(self):
-        res = _snowboydetect.SnowboyDetect_SampleRate(self)
-        print(f"[[[SampleRate: {res}]]]")
-        return res
+        return _snowboydetect.SnowboyDetect_SampleRate(self)
 
     def NumChannels(self):
         return _snowboydetect.SnowboyDetect_NumChannels(self)

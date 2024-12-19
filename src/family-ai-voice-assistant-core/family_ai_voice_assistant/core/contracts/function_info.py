@@ -1,9 +1,11 @@
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from typing import List
+
+from .dict_convertible import DictConvertible
 
 
 @dataclass
-class ParameterInfo:
+class ParameterInfo(DictConvertible):
     name: str
     description: str
     type: str
@@ -13,10 +15,10 @@ class ParameterInfo:
 
 
 @dataclass
-class FunctionInfo:
+class FunctionInfo(DictConvertible):
     name: str
     full_name: str
     function_instance: callable
     description: str
-    parameters: List[ParameterInfo]
-    return_type: str
+    parameters: List[ParameterInfo] = field(default_factory=list)
+    return_type: str = None

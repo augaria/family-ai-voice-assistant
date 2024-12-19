@@ -1,7 +1,7 @@
 from family_ai_voice_assistant.core.clients import ChatSessionClient
 
 
-class OpenAIChatSession(ChatSessionClient):
+class OpenAIStyleChatSession(ChatSessionClient):
 
     def add_system_message(self, content: str):
         message = {
@@ -27,13 +27,14 @@ class OpenAIChatSession(ChatSessionClient):
     def add_tool_message(
         self,
         tool_name: str,
-        tool_call_id: str,
-        content: str
+        content: str,
+        tool_call_id: str = None
     ):
         message = {
             "role": "tool",
             "name": tool_name,
-            "content": content,
-            "tool_call_id": tool_call_id
+            "content": content
         }
+        if tool_call_id is not None:
+            message["tool_call_id"] = tool_call_id
         self.add_message(message, True)

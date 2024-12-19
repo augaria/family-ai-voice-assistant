@@ -27,7 +27,8 @@ from ..config import (
     SnowboyConfig,
     AzureSpeechConfig,
     OpenAIConfig,
-    AzureOpenAIConfig
+    AzureOpenAIConfig,
+    OllamaConfig
 )
 
 
@@ -99,6 +100,10 @@ class ClientSelector(metaclass=SingletonMeta):
 
     @property
     def llm(self) -> LLMClient:
+        ollama_config = ConfigManager().get_instance(OllamaConfig)
+        if ollama_config is not None:
+            from ..llm_clients.ollama import Ollama
+            return Ollama()
 
         open_ai_config = ConfigManager().get_instance(OpenAIConfig)
         if open_ai_config is not None:
@@ -161,7 +166,7 @@ class ClientSelector(metaclass=SingletonMeta):
     @property
     def play_sound(self) -> PlaySoundClient:
         try:
-            from ..play_sound_clients.playsound import PlaySound
-            return PlaySound()
+            from ..play_sound_clients.pyaudio import PyAudio
+            return PyAudio()
         except ImportError:
             return None

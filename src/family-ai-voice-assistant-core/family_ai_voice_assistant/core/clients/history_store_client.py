@@ -1,6 +1,5 @@
 from abc import ABC, abstractmethod
 from typing import List, Tuple
-from dataclasses import asdict
 
 from ..contracts import ChatRecord, SerilizableChatRecord
 from .file_store_client import FileStoreClient
@@ -91,5 +90,5 @@ class MongoHistoryStore(HistoryStoreClient):
         self._collection = self._db[config.collection_name]
 
     def _save_serilizable_records(self,  records: List[SerilizableChatRecord]):
-        mongo_records = [asdict(record) for record in records]
+        mongo_records = [record.to_dict() for record in records]
         self._collection.insert_many(mongo_records)
