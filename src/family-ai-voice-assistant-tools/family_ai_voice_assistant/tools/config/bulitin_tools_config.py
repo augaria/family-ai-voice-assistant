@@ -10,6 +10,7 @@ class BuiltInFunctionsConfig(Config):
     mongo_database: str = None
     english_word_list_collection: str = None
     chinese_phrase_list_collection: str = None
+    memo_list_collection: str = None
 
     # search
     google_search_api_key: str = None

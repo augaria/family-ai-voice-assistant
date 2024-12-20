@@ -2,6 +2,7 @@ from datetime import datetime
 import pytz
 from enum import Enum
 import threading
+from typing import Any, List, Dict
 
 from apscheduler.schedulers.background import BackgroundScheduler
 
@@ -62,10 +63,25 @@ def insert_to_mongo(
     return MongoResult.INSERTED
 
 
+def get_mongo_items(
+    collection_name: str,
+    target_field: str,
+    target_value: Any
+) -> List[Dict[str, Any]]:
+    collection = mongo_db()[collection_name]
+    items = collection.find({target_field: target_value})
+    items = list(items)
+    serializable_items = [
+        {key: value for key, value in item.items() if key != '_id'}
+        for item in items
+    ]
+    return serializable_items
+
+
 def get_min_last_reviewed_and_update(
     collection_name: str,
     count: int
-):
+) -> List[Dict[str, Any]]:
     collection = mongo_db()[collection_name]
     items = collection.find().sort("last_reviewed", 1).limit(count)
     items = list(items)
@@ -229,11 +245,58 @@ def count_chinese_phrase_list():
 
 
 @tool_function
-def count_down_timer(seconds: int):
+def add_to_memo(date: str, content: str, hour: str = ""):
+    """
+    Add memo to the memo list.
+
+    :param date: Target date, string format %Y-%m-%d
+    :param content: Memo content
+    :param hour: Target hour, default None
+    """
+
+    try:
+        arguments = {
+            "date": date,
+            "content": content,
+            "hour": hour
+        }
+        insert_to_mongo(
+            collection_name=config().memo_list_collection,
+            data=arguments
+        )
+
+        return {
+            "result":
+                "Memo addition completed. "
+                f"Input parameters: {arguments}"
+        }
+
+    except Exception as e:
+        return str(e)
+
+
+@tool_function
+def get_memos(date: str) -> List[Dict[str, Any]]:
+    """
+    Get memos for the target date.
+
+    :param date: Target date, string format %Y-%m-%d
+    """
+
+    return get_mongo_items(
+        config().memo_list_collection,
+        'date',
+        date
+    )
+
+
+@tool_function
+def count_down_timer(seconds: int, message: str = "") -> None:
     """
     Countdown function, will alert user when finished.
 
     :param seconds: Countdown seconds
+    :param message: message to say when countdown finished, default None
     """
 
     try:
@@ -244,10 +307,17 @@ def count_down_timer(seconds: int):
         speech_client = ClientManager().get_client(SpeechClient)
         if speech_client is None:
             raise Exception("Speech client not found. Can't alert user.")
+
+        if message is not None and message != "":
+            count_down_message = message
+        else:
+            count_down_message = ConstantsProvider().get(
+                'COUNTDOWN_MESSAGE'
+            )
         timer = threading.Timer(
             seconds,
             speech_client.speech,
-            args=(ConstantsProvider().get('COUNTDOWN_MESSAGE'),)
+            args=(count_down_message,)
         )
         timer.start()
     except Exception as e:
@@ -255,11 +325,12 @@ def count_down_timer(seconds: int):
 
 
 @tool_function
-def alarm_timer(target_time_str: str):
+def alarm_timer(target_time_str: str, message: str = "") -> None:
     """
     Alarm function, will alert user at specified time.
 
     :param target_time_str: Alarm time, string format %H:%M:%S
+    :param message: message to say when target time reached, default None
     """
     general_config = ConfigManager().get_instance(GeneralConfig)
     scheduler = BackgroundScheduler(timezone=general_config .timezone)
@@ -285,15 +356,19 @@ def alarm_timer(target_time_str: str):
         )
 
         if target_time > now:
+            if message is not None and message != "":
+                alarm_message = message
+            else:
+                alarm_message = ConstantsProvider().get(
+                    'ALARM_MESSAGE'
+                ).format(
+                    time=target_time_str
+                )
             scheduler.add_job(
                 speech_client.speech,
                 'date',
                 run_date=target_time,
-                args=(
-                    ConstantsProvider().get('ALARM_MESSAGE').format(
-                        time=target_time_str
-                    ),
-                )
+                args=(alarm_message,)
             )
             scheduler.start()
         else:
