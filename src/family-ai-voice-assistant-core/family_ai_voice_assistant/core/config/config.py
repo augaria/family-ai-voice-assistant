@@ -27,6 +27,8 @@ class Config:
     @classmethod
     def populate(config_type: Type[T]) -> T:
         config_handler: _ConfigHandler = _ConfigHandlerFactory.get_instance()
+        if config_handler is None:
+            return None
         section_data = config_handler.get_section(config_type)
         return config_type.from_dict(section_data)
 

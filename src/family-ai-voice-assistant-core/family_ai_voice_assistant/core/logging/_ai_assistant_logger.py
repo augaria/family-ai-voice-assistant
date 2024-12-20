@@ -53,7 +53,6 @@ class AIAssistantLogger(logging.Logger):
 
         self._add_stream_handler()
 
-        config = ConfigManager().get_instance(LoggingConfig)
         if config and config.path:
             self._add_file_handler(path=config.path)
 
