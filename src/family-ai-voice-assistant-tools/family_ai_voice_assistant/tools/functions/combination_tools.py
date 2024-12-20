@@ -7,6 +7,7 @@ from family_ai_voice_assistant.core.tools_engine import (
 
 from .local_apis import get_memos, review_chinese_phrases, review_english_words
 from .search import bing_top_news
+from .web_apis import get_weather_info
 
 
 @tool_function
@@ -21,6 +22,7 @@ def daily_report(famous_saying: str) -> str:
         now = get_time_with_timezone()
         today_str = now.strftime('%Y-%m-%d')
 
+        weather_info = get_weather_info()
         memos = get_memos(today_str)
         english_words = review_english_words(2)
         chinese_phrases = review_chinese_phrases(2)
@@ -28,6 +30,7 @@ def daily_report(famous_saying: str) -> str:
 
         report = (
             f"date: {today_str}\n"
+            f"weather: {weather_info}\n"
             f"memos: {memos}\n"
             f"english words to review: {english_words}\n"
             f"chinese phrases to review: {chinese_phrases}\n"
