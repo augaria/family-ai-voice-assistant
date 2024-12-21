@@ -8,7 +8,7 @@ from family_ai_voice_assistant.core.config import (
     ConfigManager,
     SpeechRecognitionConfig
 )
-from family_ai_voice_assistant.core.utils.language_manager import (
+from family_ai_voice_assistant.core.helpers.language_manager import (
     LanguageManager
 )
 from family_ai_voice_assistant.core.logging import Loggers

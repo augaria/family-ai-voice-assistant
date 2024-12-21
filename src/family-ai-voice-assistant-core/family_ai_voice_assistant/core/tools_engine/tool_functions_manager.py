@@ -2,7 +2,7 @@ from typing import Set, List, Tuple
 
 from ..utils.singleton_meta import SingletonMeta
 from ..contracts import FunctionInfo
-from ..utils.reflection_utils import RefectionUtils
+from ..helpers.reflection_helpers import RefectionHelpers
 from ..config import ToolsConfig, ConfigManager
 from ._tool_functions_registration import _ToolFunctionsRegistration
 from ..telemetry import trace
@@ -31,7 +31,7 @@ class ToolFunctionsManager(metaclass=SingletonMeta):
             and len(self._config.packages) > 0
         ):
             for package in self._config.packages:
-                RefectionUtils.import_all_modules(package)
+                RefectionHelpers.import_all_modules(package)
             self._filter_functions_with_selection()
 
     def get_function_infos(

@@ -2,7 +2,7 @@ from typing import Dict
 
 from ..utils.singleton_meta import SingletonMeta
 from ..contracts import FunctionInfo
-from ..utils.reflection_utils import RefectionUtils
+from ..helpers.reflection_helpers import RefectionHelpers
 
 
 class _ToolFunctionsRegistration(metaclass=SingletonMeta):
@@ -12,7 +12,7 @@ class _ToolFunctionsRegistration(metaclass=SingletonMeta):
         self._selected_functions: Dict[str, FunctionInfo] = {}
 
     def register_function(self, function_instance: callable):
-        function_info = RefectionUtils.parse_function_info(function_instance)
+        function_info = RefectionHelpers.parse_function_info(function_instance)
         self._registered_functions[function_info.name] = function_info
 
     def select_function(self, function_name: str):

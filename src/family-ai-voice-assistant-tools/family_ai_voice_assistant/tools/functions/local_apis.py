@@ -6,17 +6,20 @@ from typing import Any, List, Dict
 
 from apscheduler.schedulers.background import BackgroundScheduler
 
-from family_ai_voice_assistant.core.utils.common_utils import (
+from family_ai_voice_assistant.core.helpers.common_helpers import (
     get_time_with_timezone
 )
-from family_ai_voice_assistant.core.utils.mongodb_manager import MongoDbManager
-from family_ai_voice_assistant.core.config import ConfigManager, GeneralConfig
-from family_ai_voice_assistant.core.utils.constants_provider import (
+from family_ai_voice_assistant.core.helpers.mongodb_manager import (
+    MongoDbManager
+)
+from family_ai_voice_assistant.core.config import ConfigManager
+from family_ai_voice_assistant.core.helpers.constants_provider import (
     ConstantsProvider
 )
 from family_ai_voice_assistant.core.tools_engine import (
     tool_function
 )
+from family_ai_voice_assistant.core.logging import Loggers
 
 from ..config.bulitin_tools_config import BuiltInFunctionsConfig
 
@@ -132,6 +135,7 @@ def add_to_english_word_list(
         )
 
         if res == MongoResult.UPDATED:
+            Loggers().tool.info(f"Duplicated word detected: {english_word}")
             return {
                 "result": (
                     "You already added that word before. "
@@ -205,6 +209,7 @@ def add_to_chinese_phrase_list(
         )
 
         if res == MongoResult.UPDATED:
+            Loggers().tool.info(f"Duplicated phrase detected: {phrase}")
             return {
                 "result":
                     "You already added that phrase before. "
@@ -272,6 +277,7 @@ def add_to_memo(date: str, content: str, hour: str = ""):
         }
 
     except Exception as e:
+        Loggers().tool.error(f"Error: {e}")
         return str(e)
 
 
@@ -291,7 +297,7 @@ def get_memos(date: str) -> List[Dict[str, Any]]:
 
 
 @tool_function
-def count_down_timer(seconds: int, message: str = "") -> None:
+def count_down_timer(seconds: int, message: str = "") -> Any:
     """
     Countdown function, will alert user when finished.
 
@@ -306,7 +312,9 @@ def count_down_timer(seconds: int, message: str = "") -> None:
         )
         speech_client = ClientManager().get_client(SpeechClient)
         if speech_client is None:
-            raise Exception("Speech client not found. Can't alert user.")
+            error_msg = "Speech client not found. Can't alert user."
+            Loggers().tool.error(error_msg)
+            return error_msg
 
         if message is not None and message != "":
             count_down_message = message
@@ -321,19 +329,20 @@ def count_down_timer(seconds: int, message: str = "") -> None:
         )
         timer.start()
     except Exception as e:
+        Loggers().tool.error(f"Error: {e}")
         return str(e)
 
 
 @tool_function
-def alarm_timer(target_time_str: str, message: str = "") -> None:
+def alarm_timer(target_time_str: str, message: str = "") -> Any:
     """
     Alarm function, will alert user at specified time.
 
     :param target_time_str: Alarm time, string format %H:%M:%S
     :param message: message to say when target time reached, default None
     """
-    general_config = ConfigManager().get_instance(GeneralConfig)
-    scheduler = BackgroundScheduler(timezone=general_config .timezone)
+    now = get_time_with_timezone()
+    scheduler = BackgroundScheduler(timezone=str(now.tzinfo))
 
     try:
         from family_ai_voice_assistant.core.clients import (
@@ -342,7 +351,9 @@ def alarm_timer(target_time_str: str, message: str = "") -> None:
         )
         speech_client = ClientManager().get_client(SpeechClient)
         if speech_client is None:
-            raise Exception("Speech client not found. Can't alert user.")
+            error_msg = "Speech client not found. Can't alert user."
+            Loggers().tool.error(error_msg)
+            return error_msg
 
         now = get_time_with_timezone()
         today_str = now.strftime('%Y-%m-%d')
@@ -351,7 +362,7 @@ def alarm_timer(target_time_str: str, message: str = "") -> None:
             full_target_time_str,
             '%Y-%m-%d %H:%M:%S'
         )
-        target_time = pytz.timezone(general_config .timezone).localize(
+        target_time = pytz.timezone(str(now.tzinfo)).localize(
             target_time
         )
 
@@ -374,4 +385,5 @@ def alarm_timer(target_time_str: str, message: str = "") -> None:
         else:
             speech_client.speech(ConstantsProvider().get('PAST_TIME_MESSAGE'))
     except Exception as e:
+        Loggers().tool.error(f"Error: {e}")
         return str(e)

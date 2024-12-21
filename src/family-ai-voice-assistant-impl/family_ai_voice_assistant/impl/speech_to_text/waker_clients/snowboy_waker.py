@@ -1,6 +1,6 @@
 from family_ai_voice_assistant.core.clients import WakerClient
 from family_ai_voice_assistant.core.config import ConfigManager
-from family_ai_voice_assistant.core.utils.common_utils import (
+from family_ai_voice_assistant.core.helpers.common_helpers import (
     get_absolute_path_based_on_reference_file
 )
 

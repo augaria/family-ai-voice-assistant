@@ -15,7 +15,7 @@ from .clients import (
     SpeechClient,
     PlaySoundClient
 )
-from .utils import ConstantsProvider
+from .helpers.constants_provider import ConstantsProvider
 from .utils.program_control import ProgramControl
 from .utils.ai_output_filter import AiOutputFilter
 from .telemetry import trace

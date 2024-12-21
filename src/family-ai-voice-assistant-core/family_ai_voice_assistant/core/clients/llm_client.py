@@ -8,8 +8,8 @@ from .chat_session_client import ChatSessionClient
 from .history_store_client import HistoryStoreClient
 from .client_manager import ClientManager
 from ..config import ConfigManager, ChatSessionConfig
-from ..utils.constants_provider import ConstantsProvider
-from ..utils.language_manager import LanguageManager
+from ..helpers.constants_provider import ConstantsProvider
+from ..helpers.language_manager import LanguageManager
 from ..telemetry import trace
 from ..logging import Loggers
 
@@ -39,7 +39,7 @@ class LLMClient(ABC):
 
         except Exception as e:
             self._on_session_expired()
-            print(e)
+            Loggers().llm.error(e)
             session_error_message = ConstantsProvider().get(
                 'SESSION_ERROR_MESSAGE'
             )

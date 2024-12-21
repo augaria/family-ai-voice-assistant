@@ -1,5 +1,6 @@
 import logging
 import copy
+import os
 from colorama import init, Fore, Style
 from logging.handlers import TimedRotatingFileHandler
 
@@ -64,6 +65,10 @@ class AIAssistantLogger(logging.Logger):
         self.addHandler(console_handler)
 
     def _add_file_handler(self, path: str):
+
+        if not os.path.exists(os.path.dirname(path)):
+            os.makedirs(os.path.dirname(path))
+
         file_handler = TimedRotatingFileHandler(
             filename=path,
             when='midnight',

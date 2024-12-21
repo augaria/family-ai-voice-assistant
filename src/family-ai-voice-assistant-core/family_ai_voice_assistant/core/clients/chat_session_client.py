@@ -4,7 +4,7 @@ from uuid import uuid4
 
 from ..contracts import ChatRecord
 from ..config import ChatSessionConfig, ConfigManager
-from ..utils.common_utils import get_time_with_timezone
+from ..helpers.common_helpers import get_time_with_timezone
 
 
 class ChatSessionClient:

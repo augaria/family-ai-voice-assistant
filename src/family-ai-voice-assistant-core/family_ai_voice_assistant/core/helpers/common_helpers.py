@@ -2,18 +2,24 @@ import os
 from datetime import datetime
 
 import pytz
+from tzlocal import get_localzone
 
 from ..config import ConfigManager, GeneralConfig
 
 
 def get_time_with_timezone() -> datetime:
-    config = ConfigManager().get_instance(GeneralConfig)
     now = datetime.now()
-    timezone = pytz.timezone(config.timezone)
+
+    config = ConfigManager().get_instance(GeneralConfig)
+    if config is not None and config.timezone:
+        timezone = pytz.timezone(config.timezone)
+    else:
+        timezone = get_localzone()
     return now.astimezone(timezone)
 
 
 def get_absolute_path_based_on_reference_file(
+
     file_path: str,
     relative_path: str
 ) -> str:

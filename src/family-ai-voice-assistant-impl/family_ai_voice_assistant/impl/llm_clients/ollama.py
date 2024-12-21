@@ -11,6 +11,7 @@ from family_ai_voice_assistant.core.contracts import (
     LLMFunctionDefBase
 )
 from family_ai_voice_assistant.core.tools_engine import ToolFunctionsManager
+from family_ai_voice_assistant.core.logging import Loggers
 
 from ..chat_session_clients.open_ai_style_chat_session import (
     OpenAIStyleChatSession
@@ -75,7 +76,7 @@ class Ollama(LLMClient):
                 )
             except Exception as e:
                 result = str(e)
-                print(result)
+                Loggers().llm.error(result)
             self._session.add_tool_message(
                 function_name, None, json.dumps(result)
             )

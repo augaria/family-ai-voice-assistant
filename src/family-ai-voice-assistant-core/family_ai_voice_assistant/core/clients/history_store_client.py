@@ -5,7 +5,7 @@ from ..contracts import ChatRecord, SerilizableChatRecord
 from .file_store_client import FileStoreClient
 from .client_manager import ClientManager
 from ..config import ConfigManager, HistoryStoreConfig
-from ..utils.mongodb_manager import MongoDbManager
+from ..helpers.mongodb_manager import MongoDbManager
 from ..telemetry import trace
 from ..logging import Loggers
 

@@ -1,7 +1,7 @@
-from family_ai_voice_assistant.core.utils.common_utils import (
+from family_ai_voice_assistant.core.helpers.common_helpers import (
     get_absolute_path_based_on_reference_file
 )
-from family_ai_voice_assistant.core.utils.constants_provider import (
+from family_ai_voice_assistant.core.helpers.constants_provider import (
     ConstantsProvider,
     Language
 )

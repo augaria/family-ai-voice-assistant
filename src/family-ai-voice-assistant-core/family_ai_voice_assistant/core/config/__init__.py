@@ -13,3 +13,10 @@ from .telemetry_config import (  # noqa: F401
     TelemetryExporterType
 )
 from .logging_config import LoggingConfig  # noqa: F401
+from ._config_handler._config_handler_factory import (  # noqa: F401
+    _ConfigHandlerFactory
+)
+
+
+def set_yaml_config_path(path: str):
+    _ConfigHandlerFactory.set_yaml_config_path(path)

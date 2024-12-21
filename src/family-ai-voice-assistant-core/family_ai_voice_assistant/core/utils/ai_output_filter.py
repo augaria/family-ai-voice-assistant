@@ -6,4 +6,4 @@ class AiOutputFilter:
 
     @staticmethod
     def markdown_symbol_filter(text: str) -> str:
-        return text.replace("*", "")
+        return text.replace("*", "").replace("#", "")

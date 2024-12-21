@@ -1,9 +1,9 @@
 import json
 
-from .singleton_meta import SingletonMeta
+from ..utils.singleton_meta import SingletonMeta
 from ..contracts import Language
-from .language_manager import LanguageManager
 from ..logging import Loggers
+from .language_manager import LanguageManager
 
 
 class ConstantsProvider(metaclass=SingletonMeta):

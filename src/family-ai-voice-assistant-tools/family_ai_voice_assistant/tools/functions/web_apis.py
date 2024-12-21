@@ -1,4 +1,5 @@
 import requests
+from typing import Dict, Union
 
 from family_ai_voice_assistant.core.config import ConfigManager
 from family_ai_voice_assistant.core.tools_engine import (
@@ -17,7 +18,7 @@ def config():
 def get_weather_info(
     city_adcode: str = None,
     extensions: str = 'base'
-):
+) -> Union[Dict, str]:
     """
     Use Amap API to get weather information of a specified city.
 
@@ -28,9 +29,15 @@ def get_weather_info(
     if city_adcode is None:
         city_adcode = config().default_city_adcode
 
+    api_key = config().amap_api_key
+    if not api_key or api_key == "":
+        error_msg = "Amap API key not found"
+        Loggers().tool.error(error_msg)
+        return error_msg
+
     url = "https://restapi.amap.com/v3/weather/weatherInfo"
     params = {
-        'key': config().amap_api_key,
+        'key': api_key,
         'city': city_adcode,
         'extensions': extensions,
         'output': "JSON"
@@ -44,9 +51,11 @@ def get_weather_info(
         if data['status'] == '1':
             return data
         else:
-            Loggers().tool.warning(f"weather tool failed: {data['info']}")
-            return None
+            error_msg = f"weather tool failed: {data['info']}"
+            Loggers().tool.error(error_msg)
+            return error_msg
 
-    except requests.exceptions.RequestException as e:
-        Loggers().tool.warning(f"weather tool HTTP Request failed: {e}")
-        return None
+    except Exception as e:
+        error_msg = f"weather tool failed: {e}"
+        Loggers().tool.error(error_msg)
+        return error_msg

@@ -26,7 +26,7 @@ def python_type_to_json_type(py_type):
         return 'string'
 
 
-class RefectionUtils:
+class RefectionHelpers:
 
     @staticmethod
     def parse_function_info(func: callable):

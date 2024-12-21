@@ -1,5 +1,5 @@
 import requests
-from typing import List, Dict
+from typing import List, Dict, Union
 
 from serpapi.google_search import GoogleSearch
 from bs4 import BeautifulSoup
@@ -18,12 +18,17 @@ def config():
 
 
 @tool_function
-def google_search(query: str):
+def google_search(query: str) -> Union[List[Dict], str]:
     """
     Use Google API to search for specified keywords.
 
     :param query: Search keywords
     """
+    api_key = config().google_search_api_key
+    if not api_key or api_key == "":
+        error_msg = "Google API key not found"
+        Loggers().tool.error(error_msg)
+        return error_msg
 
     params = {
         "engine": "google",
@@ -32,18 +37,23 @@ def google_search(query: str):
         "num": 10,
         "start": 0,
         "safe": "active",
-        "api_key": config().google_search_api_key
+        "api_key": api_key
     }
 
-    search = GoogleSearch(params)
-    results = search.get_dict()
-    organic_results = results["organic_results"]
+    try:
+        search = GoogleSearch(params)
+        results = search.get_dict()
+        organic_results = results["organic_results"]
 
-    return parse_response(organic_results, "title", "link", 5)
+        return parse_response(organic_results, "title", "link", "snippet")
+    except Exception as ex:
+        error_msg = f"search tool failed: {ex}"
+        Loggers().tool.error(error_msg)
+        return error_msg
 
 
 @tool_function
-def bing_news_search(query: str):
+def bing_news_search(query: str) -> Union[List[Dict], str]:
     """
     Use Bing API to search for news with specified keywords.
 
@@ -52,24 +62,26 @@ def bing_news_search(query: str):
     return bing_search_base(
         f"{config().bing_search_endpoint}/news/search",
         query,
-        5
+        "description",
+        10
     )
 
 
 @tool_function
-def bing_top_news():
+def bing_top_news() -> Union[List[Dict], str]:
     """
     Use Bing API to get top news.
     """
     return bing_search_base(
         f"{config().bing_search_endpoint}/news",
         None,
+        "description",
         10
     )
 
 
 @tool_function
-def bing_search(query: str):
+def bing_search(query: str) -> Union[List[Dict], str]:
     """
     Use Bing API to search for specified keywords.
 
@@ -78,21 +90,35 @@ def bing_search(query: str):
     return bing_search_base(
         f"{config().bing_search_endpoint}/search",
         query,
-        5
+        "snippet",
+        10
     )
 
 
-def bing_search_base(endpoint: str, query: str, count: int = 5):
+def bing_search_base(
+    endpoint: str,
+    query: str,
+    snippet_key: str,
+    count: int = 10
+) -> Union[List[Dict], str]:
+
+    api_key = config().bing_subscription_key
+    if not api_key or api_key == "":
+        error_msg = "Bing API key not found"
+        Loggers().tool.error(error_msg)
+        return error_msg
 
     params = {
         'mkt': 'zh-CN',
-        'count': 2 * count,
-        'offset': 0
+        'count': count,
+        'offset': 0,
+        'safeSearch': 'Strict',
+        'setLang': 'zh-hans'
     }
     if query is not None:
         params['q'] = query
     headers = {
-        'Ocp-Apim-Subscription-Key': config().bing_subscription_key
+        'Ocp-Apim-Subscription-Key': api_key
     }
 
     try:
@@ -103,10 +129,11 @@ def bing_search_base(endpoint: str, query: str, count: int = 5):
             items = json_response['webPages']['value']
         else:
             items = json_response['value']
+        return parse_response(items, "name", "url", snippet_key)
     except Exception as ex:
-        raise ex
-
-    return parse_response(items, "name", "url", count)
+        error_msg = f"search tool failed: {ex}"
+        Loggers().tool.error(error_msg)
+        return error_msg
 
 
 def fetch_webpage_content(url):
@@ -128,21 +155,20 @@ def parse_response(
     items: List[Dict],
     title_key: str,
     link_key: str,
-    count: int = 5
-) -> Dict:
+    snippet_key: str,
+    include_web_content: bool = False
+) -> Union[List[Dict], str]:
     if len(items) > 0:
         results = []
-        valid_count = 0
         for item in items:
-            title = item.get(title_key, "")
-            link = item.get(link_key, "")
-            content = fetch_webpage_content(link)
-            if content is not None:
-                results.append(
-                    f"Title: {title}\nURL: {link}\nContent: {content}")
-                valid_count += 1
-                if valid_count == count:
-                    break
-        return {"result": "\n\n".join(results)}
+            record = {
+                "title": item.get(title_key, ""),
+                "link": item.get(link_key, ""),
+                "snippet": item.get(snippet_key, "")
+            }
+            if include_web_content:
+                record["content"] = fetch_webpage_content(record["link"])
+            results.append(record)
+        return results
     else:
-        return {"result": "search failed"}
+        return "search failed"

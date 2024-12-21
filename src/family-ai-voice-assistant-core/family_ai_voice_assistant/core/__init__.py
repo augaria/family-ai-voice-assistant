@@ -1,15 +1,11 @@
-from .utils.constants_provider import (
+from .config import set_yaml_config_path  # noqa: F401
+from .helpers.constants_provider import (
     ConstantsProvider,
     Language
 )
-from .utils.common_utils import get_absolute_path_based_on_reference_file
-from .config._config_handler._config_handler_factory import (
-    _ConfigHandlerFactory
+from .helpers.common_helpers import (
+    get_absolute_path_based_on_reference_file
 )
-
-
-def set_yaml_config_path(path: str):
-    _ConfigHandlerFactory.set_yaml_config_path(path)
 
 
 constants_file_chs = get_absolute_path_based_on_reference_file(

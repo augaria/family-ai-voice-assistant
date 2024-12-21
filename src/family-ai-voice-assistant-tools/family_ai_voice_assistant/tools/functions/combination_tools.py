@@ -1,9 +1,12 @@
-from family_ai_voice_assistant.core.utils.common_utils import (
+from typing import Dict, Union
+
+from family_ai_voice_assistant.core.helpers.common_helpers import (
     get_time_with_timezone
 )
 from family_ai_voice_assistant.core.tools_engine import (
     tool_function
 )
+from family_ai_voice_assistant.core.logging import Loggers
 
 from .local_apis import get_memos, review_chinese_phrases, review_english_words
 from .search import bing_top_news
@@ -11,7 +14,7 @@ from .web_apis import get_weather_info
 
 
 @tool_function
-def daily_report(famous_saying: str) -> str:
+def daily_report(famous_saying: str) -> Union[Dict, str]:
     """
     Generate daily report for the user.
 
@@ -28,17 +31,19 @@ def daily_report(famous_saying: str) -> str:
         chinese_phrases = review_chinese_phrases(2)
         top_news = bing_top_news()
 
-        report = (
-            f"date: {today_str}\n"
-            f"weather: {weather_info}\n"
-            f"memos: {memos}\n"
-            f"english words to review: {english_words}\n"
-            f"chinese phrases to review: {chinese_phrases}\n"
-            f"famous saying: {famous_saying}\n"
-            f"top news: {top_news}"
-        )
+        report = {
+            "date": today_str,
+            "weather": weather_info,
+            "memos": memos,
+            "english words to review": english_words,
+            "chinese phrases to review": chinese_phrases,
+            "famous saying": famous_saying,
+            "top news": top_news
+        }
 
         return report
 
     except Exception as e:
-        return str(e)
+        error_msg = f"daily report failed: {e}"
+        Loggers().tool.error(error_msg)
+        return error_msg

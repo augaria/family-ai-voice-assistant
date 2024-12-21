@@ -8,7 +8,7 @@ import wave
 
 
 from family_ai_voice_assistant.core.logging import Loggers
-from family_ai_voice_assistant.core.utils.common_utils import (
+from family_ai_voice_assistant.core.helpers.common_helpers import (
     get_absolute_path_based_on_reference_file
 )
 from family_ai_voice_assistant.core.utils.no_alsa_error import no_alsa_error

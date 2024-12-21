@@ -3,6 +3,7 @@ import subprocess
 from family_ai_voice_assistant.core.tools_engine import (
     tool_function
 )
+from family_ai_voice_assistant.core.logging import Loggers
 
 
 @tool_function
@@ -27,6 +28,7 @@ def execute_bash_script(script: str):
 
         return result.stdout
     except subprocess.CalledProcessError as e:
+        Loggers().tool.error(f"Error: {e.stderr}")
         return f"Error: {e.stderr}"
 
 
@@ -45,4 +47,5 @@ def execute_python_code(code: str):
         exec(code, {}, local_vars)
         return str(local_vars)
     except Exception as e:
+        Loggers().tool.error(f"Error: {e}")
         return str(e)

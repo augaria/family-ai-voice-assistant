@@ -1,4 +1,4 @@
-from .singleton_meta import SingletonMeta
+from ..utils.singleton_meta import SingletonMeta
 from ..contracts import Language
 from ..config import GeneralConfig, ConfigManager
 

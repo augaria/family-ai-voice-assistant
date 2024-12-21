@@ -22,9 +22,5 @@ class _ConfigHandlerFactory:
                             _ConfigHandlerFactory._yaml_config_path
                         )
                     else:
-                        print(
-                            "Yaml config path is not set."
-                            " Currently only yaml config handler is supported."
-                        )
                         _ConfigHandlerFactory._instance = None
         return _ConfigHandlerFactory._instance
