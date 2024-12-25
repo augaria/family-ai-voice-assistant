@@ -25,7 +25,8 @@ WORKDIR /app/family-ai-voice-assistant-core
 RUN poetry build && pip install dist/*.whl
 
 WORKDIR /app/family-ai-voice-assistant-impl
-RUN poetry build && pip install dist/*.whl
+RUN poetry build
+RUN pip install "dist/*.whl[pvporcupine, azure-speech, openai-whisper, openai, ollama, coqui-tts]"
 
 WORKDIR /app/family-ai-voice-assistant-tools
 RUN poetry build && pip install dist/*.whl
