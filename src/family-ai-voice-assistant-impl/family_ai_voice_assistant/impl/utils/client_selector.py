@@ -25,10 +25,12 @@ from family_ai_voice_assistant.core.utils.singleton_meta import SingletonMeta
 from ..config import (
     PicovoiceConfig,
     SnowboyConfig,
+    OpenAIWhisperConfig,
     AzureSpeechConfig,
     OpenAIConfig,
     AzureOpenAIConfig,
-    OllamaConfig
+    OllamaConfig,
+    CoquiTTSConfig
 )
 
 
@@ -96,6 +98,16 @@ class ClientSelector(metaclass=SingletonMeta):
                 AzureRecognition
             )
             return AzureRecognition()
+
+        open_ai_whisper_config = ConfigManager().get_instance(
+            OpenAIWhisperConfig
+        )
+        if open_ai_whisper_config is not None:
+            from ..speech_to_text.recognition_clients.openai_whisper import (
+                OpenAIWhisper
+            )
+            return OpenAIWhisper()
+
         raise NotImplementedError("Recognition config not provided")
 
     @property
@@ -125,6 +137,14 @@ class ClientSelector(metaclass=SingletonMeta):
                 AzureSpeech
             )
             return AzureSpeech()
+
+        coqui_tts_config = ConfigManager().get_instance(CoquiTTSConfig)
+        if coqui_tts_config is not None:
+            from ..text_to_speech.speech_clients.coqui_tts import (
+                CoquiTTS
+            )
+            return CoquiTTS()
+
         raise NotImplementedError("Speech config not provided")
 
     @property
@@ -166,7 +186,9 @@ class ClientSelector(metaclass=SingletonMeta):
     @property
     def play_sound(self) -> PlaySoundClient:
         try:
-            from ..play_sound_clients.pyaudio import PyAudio
-            return PyAudio()
+            from ..text_to_speech.play_sound_clients.sound_device import (
+                SoundDevice
+            )
+            return SoundDevice()
         except ImportError:
             return None

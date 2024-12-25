@@ -20,6 +20,7 @@ class LoggerName(str, Enum):
     FILE_STORE = 'FileStore'
     LISTENING = 'Listening'
     RECOGNITION = 'Recognition'
+    PLAY_SOUND = 'PlaySound'
     SPEECH = 'Speech'
     GREETING = 'Greeting'
     WAITABLE_RESULT = 'WaitableResult'

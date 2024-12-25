@@ -14,7 +14,7 @@ packages = [
 ]
 
 [tool.poetry.dependencies]
-python = "<4.0,>=3.8"
+python = "<4.0,>=3.9"
 family-ai-voice-assistant-core = "*"
 pymongo = "*"
 apscheduler = "*"

@@ -46,6 +46,10 @@ class Loggers(metaclass=SingletonMeta):
         return LoggerManager().get_instance(LoggerName.RECOGNITION)
 
     @property
+    def play_sound(self):
+        return LoggerManager().get_instance(LoggerName.PLAY_SOUND)
+
+    @property
     def speech(self):
         return LoggerManager().get_instance(LoggerName.SPEECH)
 

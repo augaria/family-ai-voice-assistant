@@ -13,7 +13,7 @@ from family_ai_voice_assistant.core.helpers.language_manager import (
 )
 from family_ai_voice_assistant.core.logging import Loggers
 
-from ...config import AzureSpeechConfig, language_map
+from ...config import AzureSpeechConfig, azure_speech_language_map
 
 
 class AzureRecognition(RecognitionClient):
@@ -47,7 +47,7 @@ class AzureRecognition(RecognitionClient):
                 raise ValueError(
                     "AudioData format is required for AzureRecognition"
                 )
-            voice_language = language_map[LanguageManager().get()]
+            voice_language = azure_speech_language_map[LanguageManager().get()]
             res = self._agent.recognize_azure(
                 audio,
                 key=self._azure_speech_config.api_key,

@@ -15,16 +15,26 @@ packages = [
 ]
 
 [tool.poetry.dependencies]
-python = "<4.0,>=3.8"
+python = "<4.0,>=3.9"
 family-ai-voice-assistant-core = "*"
+scipy = "*"
 pyaudio = "*"
 sounddevice = "*"
-pvporcupine = "2.2.0"
 speechrecognition = "*"
-azure-cognitiveservices-speech = "*"
-openai = ">=1.0.0"
-scipy = "*"
-ollama = "*"
+pvporcupine = { version = "2.2.0", optional = true }
+azure-cognitiveservices-speech = { version = "*", optional = true }
+openai-whisper = { version = "*", optional = true }
+openai = { version = ">=1.0.0", optional = true }
+ollama = { version = "*", optional = true }
+TTS = { version = "*", optional = true }
+
+[tool.poetry.extras]
+pvporcupine = ["pvporcupine"]
+azure-speech = ["azure-cognitiveservices-speech"]
+openai-whisper = ["openai-whisper"]
+openai = ["openai"]
+ollama = ["ollama"]
+coqui-tts = ["TTS"]
 
 [tool.poetry.scripts]
 start_family_ai_voice_assistant = "family_ai_voice_assistant.basic_entry:main"

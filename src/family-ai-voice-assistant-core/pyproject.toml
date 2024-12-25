@@ -14,7 +14,7 @@ packages = [
 ]
 
 [tool.poetry.dependencies]
-python = "<4.0,>=3.8"
+python = "<4.0,>=3.9"
 pyyaml = "*"
 pymongo = "*"
 pytz = "*"
@@ -24,6 +24,7 @@ colorama = "*"
 opentelemetry-api = "*"
 opentelemetry-sdk = "*"
 opentelemetry-exporter-otlp = "*"
+scipy = "*"
 evdev = { version = "*", markers = "sys_platform == 'linux'" }
 
 [build-system]

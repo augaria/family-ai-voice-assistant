@@ -5,7 +5,7 @@ from family_ai_voice_assistant.core.config import Config
 from family_ai_voice_assistant.core.contracts import Language
 
 
-language_map = {
+azure_speech_language_map = {
     Language.EN: "en-US",
     Language.CHS: "zh-CN",
 }
