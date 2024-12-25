@@ -38,7 +38,9 @@ class SpeechRecognitionListening(ListeningClient):
 
         self._agent = Recognizer()
         self._agent.pause_threshold = self._config.pause_threshold
-        self._agent.energy_threshold = self._config.energy_threshold
+        if self._config.energy_threshold:
+            self._agent.dynamic_energy_threshold = False
+            self._agent.energy_threshold = self._config.energy_threshold
         self._source = Microphone()
         self._timeout = self._config.timeout if self._config.timeout else None
         self._phrase_time_limit = self._config.phrase_time_limit
@@ -46,7 +48,9 @@ class SpeechRecognitionListening(ListeningClient):
     @trace()
     def listen(self) -> AudioData:
         try:
-            with self._source:
+            with self._source as source:
+                if not self._config.energy_threshold:
+                    self._agent.adjust_for_ambient_noise(source)
                 return self._agent.listen(
                     self._source,
                     timeout=self._timeout,
