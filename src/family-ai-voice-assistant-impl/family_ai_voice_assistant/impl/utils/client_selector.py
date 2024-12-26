@@ -67,6 +67,13 @@ class ClientSelector(metaclass=SingletonMeta):
         return None
 
     @property
+    def default_waker(self) -> WakerClient:
+        from family_ai_voice_assistant.core.clients.waker_client import (
+            InteractiveKeyboardWaker
+        )
+        return InteractiveKeyboardWaker()
+
+    @property
     def greeting(self) -> GreetingClient:
         greeting_words_path = ConfigManager().get_instance(
             GeneralConfig

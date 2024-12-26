@@ -45,7 +45,10 @@ def register_clients():
             voice_waker
         )
     if not silent_waker and not voice_waker:
-        raise Exception("At least one waker should be provided.")
+        ClientManager().register_client(
+            WakerClient,
+            ClientSelector().default_waker
+        )
 
     ClientManager().register_client(
         GreetingClient,

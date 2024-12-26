@@ -57,3 +57,15 @@ class KeyboardWaker(WakerClient):
 
     def is_used_for_interrupting_ai_speeking(self) -> bool:
         return True
+
+
+class InteractiveKeyboardWaker(WakerClient):
+
+    def __init__(self):
+        pass
+
+    def check(self) -> bool:
+        input("press enter to ask a question...")
+
+    def is_used_for_interrupting_ai_speeking(self) -> bool:
+        return True
