@@ -29,7 +29,6 @@ def main():
 
     args = parser.parse_args()
 
-    # 构建请求的 URL
     url = f"http://{args.host}:{args.port}/ask_question"
 
     while True:
