@@ -7,7 +7,7 @@ from opentelemetry import trace as otl_trace
 from .chat_session_client import ChatSessionClient
 from .history_store_client import HistoryStoreClient
 from .client_manager import ClientManager
-from ..config import ConfigManager, ChatSessionConfig
+from ..configs import ConfigManager, ChatSessionConfig
 from ..helpers.constants_provider import ConstantsProvider
 from ..helpers.language_manager import LanguageManager
 from ..telemetry import trace

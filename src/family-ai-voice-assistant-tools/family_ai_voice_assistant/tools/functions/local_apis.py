@@ -12,7 +12,7 @@ from family_ai_voice_assistant.core.helpers.common_helpers import (
 from family_ai_voice_assistant.core.helpers.mongodb_manager import (
     MongoDbManager
 )
-from family_ai_voice_assistant.core.config import ConfigManager
+from family_ai_voice_assistant.core.configs import ConfigManager
 from family_ai_voice_assistant.core.helpers.constants_provider import (
     ConstantsProvider
 )
@@ -21,7 +21,7 @@ from family_ai_voice_assistant.core.tools_engine import (
 )
 from family_ai_voice_assistant.core.logging import Loggers
 
-from ..config.bulitin_tools_config import BuiltInFunctionsConfig
+from ..configs.bulitin_tools_config import BuiltInFunctionsConfig
 
 
 class MongoResult(Enum):

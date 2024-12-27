@@ -29,6 +29,9 @@ class SoundDevice(PlaySoundClient):
         self._stop_event = Event()
 
     def play_async(self, audio_file: str) -> WaitableResultClient:
+        Loggers().play_sound.warning(
+            f"Sound Device playing audio: {audio_file}"
+        )
         self._stop_event.clear()
         result = SoundDeviceWaitableResult(self._stop_event)
 
@@ -48,6 +51,9 @@ class SoundDevice(PlaySoundClient):
         return result
 
     def stop_async(self) -> WaitableResultClient:
+        Loggers().play_sound.warning(
+            "Sound Device stopping audio"
+        )
         result = SoundDeviceWaitableResult(self._stop_event)
 
         def stop_audio():

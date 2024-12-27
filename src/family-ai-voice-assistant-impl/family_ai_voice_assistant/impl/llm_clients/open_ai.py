@@ -1,10 +1,10 @@
 from typing import Any
 
 from openai import OpenAI as OpenAIClient
-from family_ai_voice_assistant.core.config import ConfigManager
+from family_ai_voice_assistant.core.configs import ConfigManager
 
 from .open_ai_base import OpenAIBase
-from ..config import OpenAIConfig
+from ..configs import OpenAIConfig
 
 
 class OpenAI(OpenAIBase):

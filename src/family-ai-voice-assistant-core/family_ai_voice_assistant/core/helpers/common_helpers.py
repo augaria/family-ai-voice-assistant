@@ -4,7 +4,7 @@ from datetime import datetime
 import pytz
 from tzlocal import get_localzone
 
-from ..config import ConfigManager, GeneralConfig
+from ..configs import ConfigManager, GeneralConfig
 
 
 def get_time_with_timezone() -> datetime:

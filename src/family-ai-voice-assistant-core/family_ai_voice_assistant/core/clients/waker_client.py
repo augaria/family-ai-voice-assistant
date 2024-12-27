@@ -30,7 +30,7 @@ class KeyboardWaker(WakerClient):
         if platform.system().lower() != "linux":
             raise Exception("KeyboardWaker is only supported on Linux.")
         import evdev  # type: ignore
-        from ..config import ConfigManager, KeyboardConfig
+        from ..configs import ConfigManager, KeyboardConfig
         config = ConfigManager().get_instance(KeyboardConfig)
         if config is None or config.device is None:
             raise ValueError("Keyboard device is not set.")

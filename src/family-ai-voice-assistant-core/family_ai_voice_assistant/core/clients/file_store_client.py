@@ -2,7 +2,7 @@ from abc import ABC, abstractmethod
 import requests
 import os
 
-from ..config import ConfigManager, FileStoreConfig
+from ..configs import ConfigManager, FileStoreConfig
 from ..telemetry import trace
 from ..logging import Loggers
 

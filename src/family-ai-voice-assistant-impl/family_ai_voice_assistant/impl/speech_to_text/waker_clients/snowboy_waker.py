@@ -1,10 +1,10 @@
 from family_ai_voice_assistant.core.clients import WakerClient
-from family_ai_voice_assistant.core.config import ConfigManager
+from family_ai_voice_assistant.core.configs import ConfigManager
 from family_ai_voice_assistant.core.helpers.common_helpers import (
     get_absolute_path_based_on_reference_file
 )
 
-from ...config import SnowboyConfig
+from ...configs import SnowboyConfig
 from ._snowboy.snowboydecoder import HotwordDetector
 
 

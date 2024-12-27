@@ -14,7 +14,7 @@ from opentelemetry.exporter.otlp.proto.http.trace_exporter import (
 )
 
 from ..utils.singleton_meta import SingletonMeta
-from ..config import TelemetryConfig, ConfigManager, TelemetryExporterType
+from ..configs import TelemetryConfig, ConfigManager, TelemetryExporterType
 
 
 service_name = "family_ai_voice_assistant"

@@ -1,8 +1,8 @@
 from typing import Type, TypeVar, Any
 from dataclasses import fields, dataclass
 
-from ._config_handler._config_handler_factory import _ConfigHandlerFactory
-from ._config_handler._config_handler import _ConfigHandler
+from ._config_handlers._config_handler_factory import _ConfigHandlerFactory
+from ._config_handlers._config_handler import _ConfigHandler
 from ..utils.global_instance_manager import GlobalInstanceManager
 
 

@@ -6,6 +6,7 @@ from typing import Tuple
 
 from .contracts import TaskStatus
 from .clients import (
+    AssistantClient,
     ClientManager,
     WakerClient,
     GreetingClient,
@@ -20,10 +21,10 @@ from .utils.program_control import ProgramControl
 from .utils.ai_output_filter import AiOutputFilter
 from .telemetry import trace
 from .logging import Loggers, colored_print, Fore
-from .config import ConfigManager, GeneralConfig
+from .configs import ConfigManager, GeneralConfig
 
 
-class FamilyAIAssistant:
+class BasicAssistant(AssistantClient):
 
     def __init__(self):
         self._wakers = ClientManager().get_all_clients(WakerClient)
@@ -60,9 +61,9 @@ class FamilyAIAssistant:
 
         self._bot_name = ConfigManager().get_instance(GeneralConfig).bot_name
 
-    def start(self):
+    def run(self):
 
-        Loggers().orchestrator.info("[started]")
+        Loggers().assistant.info("[started]")
 
         service_start_message = ConstantsProvider().get(
             'SERVICE_START_MESSAGE'
@@ -74,13 +75,13 @@ class FamilyAIAssistant:
 
         while not ProgramControl().is_exit:
             try:
-                Loggers().orchestrator.info("[AI Waiting]")
+                Loggers().assistant.info("[AI Waiting]")
                 self.wake()
-                Loggers().orchestrator.info("[AI Waked]")
+                Loggers().assistant.info("[AI Waked]")
 
                 self.serve()
             except Exception as e:
-                Loggers().orchestrator.info(e)
+                Loggers().assistant.info(e)
                 bot_error_message = ConstantsProvider().get(
                     'BOT_ERROR_MESSAGE'
                 )
@@ -97,10 +98,10 @@ class FamilyAIAssistant:
                 'BOT_HELLO_MESSAGE'
             )
 
-        Loggers().orchestrator.info("[AI greeting]")
+        Loggers().assistant.info("[AI greeting]")
         self._speech_client.speech(greeting_words)
 
-        Loggers().orchestrator.info("[AI Listening]")
+        Loggers().assistant.info("[AI Listening]")
         question, wav_bytes = asyncio.run(
             self.speech_to_wav_and_text())
         if (not question) or (question == ""):
@@ -109,12 +110,23 @@ class FamilyAIAssistant:
             )
             self._speech_client.speech(bot_rest_message)
             return
+        self.answer(question, True, wav_bytes)
+
+    @trace()
+    def answer(
+        self,
+        question: str,
+        speak_answer: bool = True,
+        wav_bytes: bytes = None
+    ) -> str:
         colored_print(f"[User] {question}", Fore.CYAN)
-        Loggers().orchestrator.info("[AI thinking]")
+        Loggers().assistant.info("[AI thinking]")
         ans = self._llm_client.chat(question, wav_bytes)
-        Loggers().orchestrator.info("[AI speaking]")
-        self.text_to_speech(AiOutputFilter.filter_output(ans))
-        Loggers().orchestrator.info("[AI finished]")
+        if speak_answer:
+            Loggers().assistant.info("[AI speaking]")
+            self.text_to_speech(AiOutputFilter.filter_output(ans))
+            Loggers().assistant.info("[AI finished]")
+        return ans
 
     def wake(self):
         with concurrent.futures.ThreadPoolExecutor() as executor:
@@ -127,7 +139,7 @@ class FamilyAIAssistant:
         audio = self._listening_client.listen()
         if audio is None:
             return None
-        Loggers().orchestrator.info("[Caught user's voice]")
+        Loggers().assistant.info("[Caught user's voice]")
 
         if self._play_sound_client:
             notice_sound_file = os.path.join(
@@ -136,7 +148,7 @@ class FamilyAIAssistant:
             )
             self._play_sound_client.play(notice_sound_file)
 
-        Loggers().orchestrator.info("[Transfering voice to text]")
+        Loggers().assistant.info("[Transfering voice to text]")
         text = self._recognition_client.recognize(audio)
         wav_bytes = self._listening_client.get_wav_from_audio(audio)
         return text, wav_bytes
@@ -157,7 +169,7 @@ class FamilyAIAssistant:
         if res == TaskStatus.COMPLETED:
             colored_print(f"[{self._bot_name}] {text}", Fore.MAGENTA)
         else:
-            Loggers().orchestrator.warning(f"text-to-speech field: {res}")
+            Loggers().assistant.warning(f"text-to-speech field: {res}")
         with self._speech_status_lock:
             self._speech_finished = True
         WakerClient.is_waiting = False

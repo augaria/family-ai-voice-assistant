@@ -21,10 +21,8 @@ from family_ai_voice_assistant.core.clients import (  # noqa: E402
     SpeechClient,
     FileStoreClient,
     HistoryStoreClient,
-    PlaySoundClient
-)
-from family_ai_voice_assistant.core.family_ai_voice_assistant import (  # noqa: E402, E501
-    FamilyAIAssistant
+    PlaySoundClient,
+    AssistantClient
 )
 
 from .impl.utils.client_selector import ClientSelector  # noqa: E402
@@ -96,12 +94,13 @@ def register_clients():
             play_sound
         )
 
+    ClientManager().register_client(
+        AssistantClient,
+        ClientSelector().assistant
+    )
+
 
 def main():
     register_clients()
-    assistant = FamilyAIAssistant()
-    assistant.start()
-
-
-if __name__ == "__main__":
-    main()
+    assistant = ClientManager().get_client(AssistantClient)
+    assistant.run()

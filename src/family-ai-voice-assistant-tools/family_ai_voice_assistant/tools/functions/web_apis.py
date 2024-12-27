@@ -1,13 +1,13 @@
 import requests
 from typing import Dict, Union
 
-from family_ai_voice_assistant.core.config import ConfigManager
+from family_ai_voice_assistant.core.configs import ConfigManager
 from family_ai_voice_assistant.core.tools_engine import (
     tool_function
 )
 from family_ai_voice_assistant.core.logging import Loggers
 
-from ..config.bulitin_tools_config import BuiltInFunctionsConfig
+from ..configs.bulitin_tools_config import BuiltInFunctionsConfig
 
 
 def config():

@@ -4,7 +4,7 @@ import os
 from colorama import init, Fore, Style
 from logging.handlers import TimedRotatingFileHandler
 
-from ..config import ConfigManager, LoggingConfig
+from ..configs import ConfigManager, LoggingConfig
 
 init(autoreset=True)
 
@@ -14,8 +14,8 @@ logging_format_template = (
 )
 
 
-def colored_print(text: str, fore_color: str):
-    print(fore_color + text + Style.RESET_ALL)
+def colored_print(text: str, fore_color: str, end='\r\n'):
+    print(fore_color + text + Style.RESET_ALL, end=end)
 
 
 class ColoredFormatter(logging.Formatter):

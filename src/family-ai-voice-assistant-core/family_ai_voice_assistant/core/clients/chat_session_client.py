@@ -3,7 +3,7 @@ from typing import List
 from uuid import uuid4
 
 from ..contracts import ChatRecord
-from ..config import ChatSessionConfig, ConfigManager
+from ..configs import ChatSessionConfig, ConfigManager
 from ..helpers.common_helpers import get_time_with_timezone
 
 

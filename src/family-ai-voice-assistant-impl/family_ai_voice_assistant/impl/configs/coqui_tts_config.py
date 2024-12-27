@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 
-from family_ai_voice_assistant.core.config import Config
+from family_ai_voice_assistant.core.configs import Config
 from family_ai_voice_assistant.core.contracts import Language
 
 coqui_tts_language_map = {

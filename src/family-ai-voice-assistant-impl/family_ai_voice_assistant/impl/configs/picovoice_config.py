@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from typing import List
 
-from family_ai_voice_assistant.core.config import Config
+from family_ai_voice_assistant.core.configs import Config
 
 
 @dataclass

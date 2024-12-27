@@ -10,8 +10,8 @@ from colorama import Fore  # noqa: F401
 class Loggers(metaclass=SingletonMeta):
 
     @property
-    def orchestrator(self) -> Logger:
-        return LoggerManager().get_instance(LoggerName.ORCHESTRATOR)
+    def assistant(self) -> Logger:
+        return LoggerManager().get_instance(LoggerName.ASSISTANT)
 
     @property
     def tool(self):

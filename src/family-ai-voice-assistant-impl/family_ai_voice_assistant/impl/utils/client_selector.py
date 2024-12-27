@@ -9,20 +9,22 @@ from family_ai_voice_assistant.core.clients import (
     SpeechClient,
     HistoryStoreClient,
     FileStoreClient,
-    PlaySoundClient
+    PlaySoundClient,
+    AssistantClient
 )
-from family_ai_voice_assistant.core.config import (
+from family_ai_voice_assistant.core.configs import (
     ConfigManager,
     GeneralConfig,
     SpeechRecognitionConfig,
     FileStoreConfig,
     HistoryStoreConfig,
-    KeyboardConfig
+    KeyboardConfig,
+    AssistantApiConfig
 )
 
 from family_ai_voice_assistant.core.utils.singleton_meta import SingletonMeta
 
-from ..config import (
+from ..configs import (
     PicovoiceConfig,
     SnowboyConfig,
     OpenAIWhisperConfig,
@@ -199,3 +201,17 @@ class ClientSelector(metaclass=SingletonMeta):
             return SoundDevice()
         except ImportError:
             return None
+
+    @property
+    def assistant(self) -> AssistantClient:
+        assistant_api_config = ConfigManager().get_instance(AssistantApiConfig)
+        if assistant_api_config is not None:
+            from family_ai_voice_assistant.core.assistant_with_api import (
+                AssistantWithApi
+            )
+            return AssistantWithApi()
+
+        from family_ai_voice_assistant.core.basic_assistant import (
+            BasicAssistant
+        )
+        return BasicAssistant()

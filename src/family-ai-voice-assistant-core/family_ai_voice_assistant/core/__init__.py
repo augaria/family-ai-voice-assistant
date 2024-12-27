@@ -1,4 +1,4 @@
-from .config import set_yaml_config_path  # noqa: F401
+from .configs import set_yaml_config_path  # noqa: F401
 from .helpers.constants_provider import (
     ConstantsProvider,
     Language

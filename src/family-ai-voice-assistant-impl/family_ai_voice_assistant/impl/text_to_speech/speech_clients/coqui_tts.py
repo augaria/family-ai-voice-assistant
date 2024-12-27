@@ -7,13 +7,13 @@ from family_ai_voice_assistant.core.clients import (
     SpeechClient,
     PlaySoundClient
 )
-from family_ai_voice_assistant.core.config import ConfigManager
+from family_ai_voice_assistant.core.configs import ConfigManager
 from family_ai_voice_assistant.core.clients import WaitableResultClient
 from family_ai_voice_assistant.core.helpers.language_manager import (
     LanguageManager
 )
 
-from ...config import CoquiTTSConfig, coqui_tts_language_map
+from ...configs import CoquiTTSConfig, coqui_tts_language_map
 
 
 class CoquiTTS(SpeechClient):

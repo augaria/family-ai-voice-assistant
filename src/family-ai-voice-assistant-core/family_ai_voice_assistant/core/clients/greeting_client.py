@@ -15,7 +15,7 @@ class GreetingClient(ABC):
 class RandomGreetingWordsFromList(GreetingClient):
 
     def __init__(self):
-        from ..config import ConfigManager, GeneralConfig
+        from ..configs import ConfigManager, GeneralConfig
 
         self._list = []
         config = ConfigManager().get_instance(GeneralConfig)

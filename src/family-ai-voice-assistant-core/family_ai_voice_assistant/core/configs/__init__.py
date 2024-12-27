@@ -5,6 +5,7 @@ from .tools_config import ToolsConfig  # noqa: F401
 from .file_store_config import FileStoreConfig  # noqa: F401
 from .keyboard_config import KeyboardConfig  # noqa: F401
 from .history_store_config import HistoryStoreConfig  # noqa: F401
+from .assistant_api_config import AssistantApiConfig  # noqa: F401
 from .speech_recognition_config import (  # noqa: F401
     SpeechRecognitionConfig
 )
@@ -13,7 +14,7 @@ from .telemetry_config import (  # noqa: F401
     TelemetryExporterType
 )
 from .logging_config import LoggingConfig  # noqa: F401
-from ._config_handler._config_handler_factory import (  # noqa: F401
+from ._config_handlers._config_handler_factory import (  # noqa: F401
     _ConfigHandlerFactory
 )
 

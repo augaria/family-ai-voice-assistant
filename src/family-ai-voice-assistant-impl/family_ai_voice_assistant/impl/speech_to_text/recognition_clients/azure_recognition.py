@@ -4,7 +4,7 @@ from speech_recognition import Recognizer, exceptions, AudioData
 
 from family_ai_voice_assistant.core.clients import RecognitionClient
 from family_ai_voice_assistant.core.telemetry import trace
-from family_ai_voice_assistant.core.config import (
+from family_ai_voice_assistant.core.configs import (
     ConfigManager,
     SpeechRecognitionConfig
 )
@@ -13,7 +13,7 @@ from family_ai_voice_assistant.core.helpers.language_manager import (
 )
 from family_ai_voice_assistant.core.logging import Loggers
 
-from ...config import AzureSpeechConfig, azure_speech_language_map
+from ...configs import AzureSpeechConfig, azure_speech_language_map
 
 
 class AzureRecognition(RecognitionClient):

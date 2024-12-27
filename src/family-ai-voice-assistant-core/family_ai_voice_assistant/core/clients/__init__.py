@@ -10,3 +10,4 @@ from .watiable_result_client import WaitableResultClient  # noqa: F401
 from .history_store_client import HistoryStoreClient  # noqa: F401
 from .file_store_client import FileStoreClient  # noqa: F401
 from .play_sound_client import PlaySoundClient  # noqa: F401
+from .assistant_client import AssistantClient  # noqa: F401

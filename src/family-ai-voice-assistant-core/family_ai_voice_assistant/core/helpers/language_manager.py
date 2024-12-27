@@ -1,6 +1,6 @@
 from ..utils.singleton_meta import SingletonMeta
 from ..contracts import Language
-from ..config import GeneralConfig, ConfigManager
+from ..configs import GeneralConfig, ConfigManager
 
 
 class LanguageManager(metaclass=SingletonMeta):

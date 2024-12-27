@@ -3,7 +3,7 @@ from typing import Set, List, Tuple
 from ..utils.singleton_meta import SingletonMeta
 from ..contracts import FunctionInfo
 from ..helpers.reflection_helpers import RefectionHelpers
-from ..config import ToolsConfig, ConfigManager
+from ..configs import ToolsConfig, ConfigManager
 from ._tool_functions_registration import _ToolFunctionsRegistration
 from ..telemetry import trace
 from ..logging import Loggers

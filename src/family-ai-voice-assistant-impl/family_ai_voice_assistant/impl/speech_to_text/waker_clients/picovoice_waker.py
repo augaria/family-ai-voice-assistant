@@ -3,9 +3,9 @@ import pyaudio
 import struct
 
 from family_ai_voice_assistant.core.clients import WakerClient
-from family_ai_voice_assistant.core.config import ConfigManager
+from family_ai_voice_assistant.core.configs import ConfigManager
 
-from ...config import PicovoiceConfig
+from ...configs import PicovoiceConfig
 
 
 class PicovoiceWaker(WakerClient):

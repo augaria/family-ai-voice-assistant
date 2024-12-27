@@ -11,7 +11,7 @@ from azure.cognitiveservices.speech import (
 from azure.cognitiveservices.speech.audio import AudioOutputConfig
 
 from family_ai_voice_assistant.core.clients import SpeechClient
-from family_ai_voice_assistant.core.config import ConfigManager
+from family_ai_voice_assistant.core.configs import ConfigManager
 from family_ai_voice_assistant.core.contracts import Language
 from family_ai_voice_assistant.core.contracts import TaskStatus
 from family_ai_voice_assistant.core.clients import WaitableResultClient
@@ -20,7 +20,7 @@ from family_ai_voice_assistant.core.helpers.language_manager import (
     LanguageManager
 )
 
-from ...config import AzureSpeechConfig, azure_speech_language_map
+from ...configs import AzureSpeechConfig, azure_speech_language_map
 
 
 class AzureSpeechResult(WaitableResultClient):

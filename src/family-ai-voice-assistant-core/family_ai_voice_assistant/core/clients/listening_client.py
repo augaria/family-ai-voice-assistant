@@ -3,7 +3,7 @@ from typing import Any, List, Union
 
 from speech_recognition import Recognizer, Microphone, exceptions, AudioData
 
-from ..config import ConfigManager, SpeechRecognitionConfig
+from ..configs import ConfigManager, SpeechRecognitionConfig
 from ..telemetry import trace
 from ..logging import Loggers
 

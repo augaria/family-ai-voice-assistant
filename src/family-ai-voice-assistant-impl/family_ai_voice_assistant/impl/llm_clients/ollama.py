@@ -4,7 +4,7 @@ import json
 from ollama import Client
 from ollama import ChatResponse
 
-from family_ai_voice_assistant.core.config import ConfigManager
+from family_ai_voice_assistant.core.configs import ConfigManager
 from family_ai_voice_assistant.core.clients import LLMClient, ChatSessionClient
 from family_ai_voice_assistant.core.contracts import (
     FunctionInfo,
@@ -16,7 +16,7 @@ from family_ai_voice_assistant.core.logging import Loggers
 from ..chat_session_clients.open_ai_style_chat_session import (
     OpenAIStyleChatSession
 )
-from ..config import OllamaConfig
+from ..configs import OllamaConfig
 
 
 class Ollama(LLMClient):

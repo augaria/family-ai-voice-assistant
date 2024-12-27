@@ -25,5 +25,5 @@ class LoggerName(str, Enum):
     GREETING = 'Greeting'
     WAITABLE_RESULT = 'WaitableResult'
     TOOL = 'Tool'
-    ORCHESTRATOR = 'Orchestrator'
+    ASSISTANT = 'Assistant'
     UTILS = 'Utils'

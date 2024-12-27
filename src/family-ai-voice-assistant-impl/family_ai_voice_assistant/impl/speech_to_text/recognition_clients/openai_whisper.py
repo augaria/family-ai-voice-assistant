@@ -1,11 +1,12 @@
 from typing import Any, Union
 
 import whisper
+import torch
 from speech_recognition import AudioData
 
 from family_ai_voice_assistant.core.clients import RecognitionClient
 from family_ai_voice_assistant.core.telemetry import trace
-from family_ai_voice_assistant.core.config import (
+from family_ai_voice_assistant.core.configs import (
     ConfigManager
 )
 from family_ai_voice_assistant.core.helpers.language_manager import (
@@ -14,7 +15,7 @@ from family_ai_voice_assistant.core.helpers.language_manager import (
 from family_ai_voice_assistant.core.logging import Loggers
 from family_ai_voice_assistant.core.utils.wav_utils import WavUtils
 
-from ...config import OpenAIWhisperConfig, openai_whisper_language_map
+from ...configs import OpenAIWhisperConfig, openai_whisper_language_map
 
 
 class OpenAIWhisper(RecognitionClient):
@@ -31,7 +32,11 @@ class OpenAIWhisper(RecognitionClient):
         ):
             raise ValueError("OpenAIWhisperConfig.model is not set.")
 
-        self._agent = whisper.load_model(openai_whisper_config.model)
+        device = "cuda" if torch.cuda.is_available() else "cpu"
+        self._client = whisper.load_model(
+            openai_whisper_config.model,
+            device=device
+        )
 
     @trace()
     def recognize(self, audio: Union[AudioData, Any]) -> str:
@@ -45,7 +50,7 @@ class OpenAIWhisper(RecognitionClient):
                 audio.get_wav_data()
             )
             language = openai_whisper_language_map[LanguageManager().get()]
-            res = self._agent.transcribe(audio_file, language=language)
+            res = self._client.transcribe(audio_file, language=language)
             return res['text']
         except Exception as e:
             Loggers().recognition.warning(
