@@ -21,6 +21,11 @@ class GlobalInstanceManager(metaclass=SingletonMeta):
     def _create_instance(self, **kwargs) -> T:
         pass
 
+    def _remove_instance(self, identifier: Any):
+        with self.__lock:
+            if identifier in self.__instances:
+                del self.__instances[identifier]
+
     def _get_instance(
         self,
         identifier: Any,

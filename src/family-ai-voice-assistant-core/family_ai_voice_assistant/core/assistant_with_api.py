@@ -46,7 +46,11 @@ class AssistantWithApi(AssistantClient):
                     if data.speak_answer is not None
                     else False
                 )
-                return self._assistant.answer(data.question, speak_answer)
+                return self._assistant.answer(
+                    question=data.question,
+                    speak_answer=speak_answer,
+                    enable_interrupt=False
+                )
             except Exception as e:
                 Loggers().assistant.warning(
                     f"Failed to answer the question: {str(e)}"

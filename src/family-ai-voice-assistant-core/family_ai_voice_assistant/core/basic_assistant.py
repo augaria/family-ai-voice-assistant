@@ -103,20 +103,27 @@ class BasicAssistant(AssistantClient):
 
         Loggers().assistant.info("[AI Listening]")
         question, wav_bytes = asyncio.run(
-            self.speech_to_wav_and_text())
+            self.speech_to_wav_and_text()
+        )
         if (not question) or (question == ""):
             bot_rest_message = ConstantsProvider().get(
                 'BOT_REST_MESSAGE'
             )
             self._speech_client.speech(bot_rest_message)
             return
-        self.answer(question, True, wav_bytes)
+        self.answer(
+            question=question,
+            speak_answer=True,
+            enable_interrupt=True,
+            wav_bytes=wav_bytes
+        )
 
     @trace()
     def answer(
         self,
         question: str,
         speak_answer: bool = True,
+        enable_interrupt: bool = True,
         wav_bytes: bytes = None
     ) -> str:
         colored_print(f"[User] {question}", Fore.CYAN)
@@ -124,7 +131,10 @@ class BasicAssistant(AssistantClient):
         ans = self._llm_client.chat(question, wav_bytes)
         if speak_answer:
             Loggers().assistant.info("[AI speaking]")
-            self.text_to_speech(AiOutputFilter.filter_output(ans))
+            self.text_to_speech(
+                text=AiOutputFilter.filter_output(ans),
+                enable_interrupt=enable_interrupt
+            )
             Loggers().assistant.info("[AI finished]")
         return ans
 
@@ -153,26 +163,35 @@ class BasicAssistant(AssistantClient):
         wav_bytes = self._listening_client.get_wav_from_audio(audio)
         return text, wav_bytes
 
-    def text_to_speech(self, text: str):
+    def text_to_speech(self, text: str, enable_interrupt: bool = True):
         with concurrent.futures.ThreadPoolExecutor() as executor:
-            speech_task = executor.submit(self._speech_and_stop_wait, text)
-            interrupt_task = executor.submit(self._wait_and_interrupt_speech)
-            tasks = [speech_task, interrupt_task]
+            speech_task = executor.submit(
+                self._speech_and_stop_wait,
+                text,
+                enable_interrupt
+            )
+            tasks = [speech_task]
+            if enable_interrupt:
+                interrupt_task = executor.submit(
+                    self._wait_and_interrupt_speech
+                )
+                tasks.append(interrupt_task)
             concurrent.futures.wait(
                 tasks, return_when=concurrent.futures.ALL_COMPLETED
             )
 
-    def _speech_and_stop_wait(self, text):
+    def _speech_and_stop_wait(self, text: str, enable_interrupt: bool = True):
         with self._speech_status_lock:
             self._speech_finished = False
         res = self._speech_client.speech(text)
         if res == TaskStatus.COMPLETED:
             colored_print(f"[{self._bot_name}] {text}", Fore.MAGENTA)
         else:
-            Loggers().assistant.warning(f"text-to-speech field: {res}")
+            Loggers().assistant.warning(f"text-to-speech failed: {res}")
         with self._speech_status_lock:
             self._speech_finished = True
-        WakerClient.is_waiting = False
+        if enable_interrupt:
+            WakerClient.is_waiting = False
 
     def _wait_and_interrupt_speech(self):
         self._wait_for_interrupt_signal()

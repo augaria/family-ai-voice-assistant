@@ -43,6 +43,14 @@ class ConfigManager(GlobalInstanceManager):
         self,
         config_type: Type[T]
     ) -> T:
+        config = super()._get_instance(
+            identifier=config_type,
+            config_type=config_type
+        )
+        if config is not None:
+            return config
+
+        super()._remove_instance(identifier=config_type)
         return super()._get_instance(
             identifier=config_type,
             config_type=config_type
