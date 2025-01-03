@@ -200,10 +200,15 @@ class BasicAssistant(AssistantClient):
                 self._speech_client.stop()
 
     def _wait_for_interrupt_signal(self):
+        interrupting_wakers = [
+            waker for waker in self._wakers
+            if waker.is_used_for_interrupting_ai_speeking()
+        ]
+        if len(interrupting_wakers) == 0:
+            return
         with concurrent.futures.ThreadPoolExecutor() as executor:
             tasks = [
-                executor.submit(waker.wake) for waker in self._wakers
-                if waker.is_used_for_interrupting_ai_speeking()
+                executor.submit(waker.wake) for waker in interrupting_wakers
             ]
             concurrent.futures.wait(
                 tasks, return_when=concurrent.futures.ALL_COMPLETED
