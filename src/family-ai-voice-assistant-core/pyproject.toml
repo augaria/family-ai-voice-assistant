@@ -31,6 +31,7 @@ evdev = { version = "*", markers = "sys_platform == 'linux'" }
 
 [tool.poetry.scripts]
 family_ai_voice_assistant_console = "family_ai_voice_assistant.core.assistant_console_client:main"
+family_ai_voice_assistant_file_server = "family_ai_voice_assistant.core.clients.file_store_client:start_file_server"
 
 [build-system]
 requires = ["poetry-core"]

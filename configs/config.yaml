@@ -4,6 +4,8 @@ general:
   bot_name: 小夕
   user_name: 小宝
   city: 北京
+
+# whether to provide a REST API
 assistantapi:
   port: 10000
 
@@ -25,7 +27,7 @@ speechrecognition:
   energy_threshold: 800
   pause_threshold: 3
 
-# tts
+# stt
 azurespeech:
   api_key: xxxxxx
   api_region: eastasia
@@ -36,10 +38,13 @@ azurespeech:
       name: en-US-AnaNeural
 # openaiwhisper:
 #   model: turbo
+
+# tts
 # coquitts:
 #   model: tts_models/multilingual/multi-dataset/xtts_v2
 #   speaker_id: "Claribel Dervla"
 
+# chat session
 chatsession:
   init_prompt_path: xxxxxx/init_prompt.txt
   max_token_per_session: -1
@@ -66,6 +71,7 @@ openai:
 #   api_base: https://api.deepseek.com
 #   model: deepseek-chat
 
+# builtin tools
 builtintools:
   mongo_connection_str: mongodb://localhost:27017/
   mongo_database: xxxxxx
@@ -78,6 +84,7 @@ builtintools:
   amap_api_key: xxxxxx
   default_city_adcode: 110000 # Beijing
 
+# tools loading
 tools:
   packages:
     - family_ai_voice_assistant.tools
