@@ -22,7 +22,7 @@ def main():
         help='API port'
     )
     parser.add_argument(
-        '--speak_answer',
+        '--speak',
         action='store_true',
         help='speaks the answer or not'
     )
@@ -39,7 +39,7 @@ def main():
 
         data = AskQuestionRequest(
             question=question,
-            speak_answer=args.speak_answer
+            speak_answer=args.speak
         ).to_dict()
 
         try:

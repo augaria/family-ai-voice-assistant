@@ -15,7 +15,12 @@ class OpenAI(OpenAIBase):
         if self._config is None:
             raise ValueError("OpenAIConfig is not set.")
 
+        if self._config.api_base is not None and self._config.api_base != "":
+            base_url = self._config.api_base
+        else:
+            base_url = None
         self._client = OpenAIClient(
+            base_url=base_url,
             api_key=self._config.api_key
         )
 
