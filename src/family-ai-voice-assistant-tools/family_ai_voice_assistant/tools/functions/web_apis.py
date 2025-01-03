@@ -7,11 +7,11 @@ from family_ai_voice_assistant.core.tools_engine import (
 )
 from family_ai_voice_assistant.core.logging import Loggers
 
-from ..configs.bulitin_tools_config import BuiltInFunctionsConfig
+from ..configs.bulitin_tools_config import BuiltInToolsConfig
 
 
 def config():
-    return ConfigManager().get_instance(BuiltInFunctionsConfig)
+    return ConfigManager().get_instance(BuiltInToolsConfig)
 
 
 @tool_function
@@ -26,7 +26,7 @@ def get_weather_info(
     :param extensions: 'base' returns current weather, 'all' returns forecast
     """
 
-    if city_adcode is None:
+    if city_adcode is None or city_adcode == "":
         city_adcode = config().default_city_adcode
 
     api_key = config().amap_api_key

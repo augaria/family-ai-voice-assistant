@@ -1,8 +1,9 @@
 general:
   language: CHS # CHS, EN
   timezone: Asia/Shanghai
-  bot_name: xxxxxx
-
+  bot_name: 小夕
+  user_name: 小宝
+  city: 北京
 assistantapi:
   port: 10000
 
@@ -65,7 +66,7 @@ openai:
 #   api_base: https://api.deepseek.com
 #   model: deepseek-chat
 
-builtinfunctions:
+builtintools:
   mongo_connection_str: mongodb://localhost:27017/
   mongo_database: xxxxxx
   english_word_list_collection: english_word_list

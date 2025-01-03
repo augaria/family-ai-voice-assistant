@@ -10,11 +10,11 @@ from family_ai_voice_assistant.core.tools_engine import (
 )
 from family_ai_voice_assistant.core.logging import Loggers
 
-from ..configs.bulitin_tools_config import BuiltInFunctionsConfig
+from ..configs.bulitin_tools_config import BuiltInToolsConfig
 
 
 def config():
-    return ConfigManager().get_instance(BuiltInFunctionsConfig)
+    return ConfigManager().get_instance(BuiltInToolsConfig)
 
 
 @tool_function

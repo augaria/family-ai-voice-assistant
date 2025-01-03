@@ -59,7 +59,9 @@ class BasicAssistant(AssistantClient):
         self._speech_status_lock = threading.Lock()
         self._speech_finished = False
 
-        self._bot_name = ConfigManager().get_instance(GeneralConfig).bot_name
+        general_config = ConfigManager().get_instance(GeneralConfig)
+        self._bot_name = general_config.bot_name
+        self._user_name = general_config.user_name
 
     def run(self):
 
@@ -126,9 +128,10 @@ class BasicAssistant(AssistantClient):
         enable_interrupt: bool = True,
         wav_bytes: bytes = None
     ) -> str:
-        colored_print(f"[User] {question}", Fore.CYAN)
+        colored_print(f"[{self._user_name}] {question}", Fore.CYAN)
         Loggers().assistant.info("[AI thinking]")
         ans = self._llm_client.chat(question, wav_bytes)
+        colored_print(f"[{self._bot_name}] {ans}", Fore.MAGENTA)
         if speak_answer:
             Loggers().assistant.info("[AI speaking]")
             self.text_to_speech(
@@ -184,9 +187,7 @@ class BasicAssistant(AssistantClient):
         with self._speech_status_lock:
             self._speech_finished = False
         res = self._speech_client.speech(text)
-        if res == TaskStatus.COMPLETED:
-            colored_print(f"[{self._bot_name}] {text}", Fore.MAGENTA)
-        else:
+        if res != TaskStatus.COMPLETED:
             Loggers().assistant.warning(f"text-to-speech failed: {res}")
         with self._speech_status_lock:
             self._speech_finished = True

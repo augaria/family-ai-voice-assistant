@@ -26,6 +26,7 @@ opentelemetry-sdk = "*"
 opentelemetry-exporter-otlp = "*"
 scipy = "*"
 flask = "*"
+Jinja2 = "*"
 evdev = { version = "*", markers = "sys_platform == 'linux'" }
 
 [tool.poetry.scripts]

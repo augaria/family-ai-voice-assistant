@@ -4,7 +4,7 @@ from family_ai_voice_assistant.core.configs import Config
 
 
 @dataclass
-class BuiltInFunctionsConfig(Config):
+class BuiltInToolsConfig(Config):
     # local_apis
     mongo_connection_str: str = None
     mongo_database: str = None

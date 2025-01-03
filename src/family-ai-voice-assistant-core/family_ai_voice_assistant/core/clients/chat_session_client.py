@@ -2,8 +2,9 @@ from abc import abstractmethod
 from typing import List
 from uuid import uuid4
 
+from jinja2 import Template
 from ..contracts import ChatRecord
-from ..configs import ChatSessionConfig, ConfigManager
+from ..configs import ChatSessionConfig, GeneralConfig, ConfigManager
 from ..helpers.common_helpers import get_time_with_timezone
 
 
@@ -19,7 +20,13 @@ class ChatSessionClient:
         self._init_prompt = None
         if config.init_prompt_path is not None:
             with open(config.init_prompt_path, 'r', encoding='utf-8') as file:
-                self._init_prompt = file.read()
+                template = Template(file.read())
+                general_config = ConfigManager().get_instance(GeneralConfig)
+                self._init_prompt = template.render(
+                    bot_name=general_config.bot_name,
+                    user_name=general_config.user_name,
+                    city=general_config.city
+                )
                 time_info = get_time_with_timezone()
                 self.add_system_message(
                     f"{self._init_prompt}\r\n "
