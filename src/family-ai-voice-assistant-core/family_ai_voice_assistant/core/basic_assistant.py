@@ -205,7 +205,7 @@ class BasicAssistant(AssistantClient):
     def _wait_for_interrupt_signal(self) -> bool:
         interrupting_wakers = [
             waker for waker in self._wakers
-            if waker.is_used_for_interrupting_ai_speeking()
+            if waker.is_used_for_interrupting_ai_speaking()
         ]
         if len(interrupting_wakers) == 0:
             return False
