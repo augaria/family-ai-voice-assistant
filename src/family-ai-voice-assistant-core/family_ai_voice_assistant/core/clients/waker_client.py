@@ -18,9 +18,8 @@ class WakerClient(ABC):
     def check(self) -> bool:
         pass
 
-    @abstractmethod
-    def is_used_for_interrupting_ai_speeking(self) -> bool:
-        pass
+    def is_used_for_interrupting_ai_speaking(self) -> bool:
+        return False
 
 
 class KeyboardWaker(WakerClient):
@@ -55,7 +54,7 @@ class KeyboardWaker(WakerClient):
 
         return False
 
-    def is_used_for_interrupting_ai_speeking(self) -> bool:
+    def is_used_for_interrupting_ai_speaking(self) -> bool:
         return True
 
 
@@ -66,7 +65,4 @@ class InteractiveKeyboardWaker(WakerClient):
 
     def check(self) -> bool:
         input("press enter to ask a question...")
-        return True
-
-    def is_used_for_interrupting_ai_speeking(self) -> bool:
         return True

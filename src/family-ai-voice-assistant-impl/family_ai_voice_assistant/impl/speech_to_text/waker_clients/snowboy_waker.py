@@ -37,6 +37,3 @@ class SnowboyWaker(WakerClient):
 
     def check(self) -> bool:
         pass
-
-    def is_used_for_interrupting_ai_speeking(self) -> bool:
-        return False
