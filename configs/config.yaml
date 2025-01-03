@@ -1,0 +1,102 @@
+general:
+  language: CHS # CHS, EN
+  timezone: Asia/Shanghai
+  bot_name: xxxxxx
+
+assistantapi:
+  port: 10000
+
+# wakers
+snowboy:
+  model_path: null
+# picovoice:
+#   api_key: xxxxxx
+#   model_path: xxxxxx/porcupine_params_zh.pv
+#   keyword_paths:
+#     - xxxxxx/xxxxxx_zh_linux_v2_2_0.ppn
+# keyboard:
+#   device: /dev/input/event1
+
+# recognition
+speechrecognition:
+  timeout: 5
+  phrase_time_limit: 15
+  energy_threshold: 800
+  pause_threshold: 3
+
+# tts
+azurespeech:
+  api_key: xxxxxx
+  api_region: eastasia
+  voice:
+    - language: zh-CN
+      name: zh-CN-XiaoyiNeural
+    - language: en-US
+      name: en-US-AnaNeural
+# openaiwhisper:
+#   model: turbo
+# coquitts:
+#   model: tts_models/multilingual/multi-dataset/xtts_v2
+#   speaker_id: "Claribel Dervla"
+
+chatsession:
+  init_prompt_path: xxxxxx/init_prompt.txt
+  max_token_per_session: -1
+  session_timeout: 600
+
+# llm
+openai:
+  api_key: xxxxxx
+  model: gpt-4o
+# azureopenai:
+#   api_key: xxxxxx
+#   api_base: https://xxxxxx.openai.azure.com/
+#   api_version: 2024-02-15-preview
+#   deployment_name: gpt-4o
+# ollama:
+#   host: http://localhost:11434/
+#   model: llama3.2
+# openai:  # kimi
+#   api_key: xxxxxx
+#   api_base: https://api.moonshot.cn/v1
+#   model: moonshot-v1-8k
+# openai:  # deepseek
+#   api_key: xxxxxx
+#   api_base: https://api.deepseek.com
+#   model: deepseek-chat
+
+builtinfunctions:
+  mongo_connection_str: mongodb://localhost:27017/
+  mongo_database: xxxxxx
+  english_word_list_collection: english_word_list
+  chinese_phrase_list_collection: chinese_phrase_list
+  memo_list_collection: memo_list
+  google_search_api_key: xxxxxx
+  # bing_subscription_key: xxxxxx
+  # bing_search_endpoint: https://api.bing.microsoft.com/v7.0
+  amap_api_key: xxxxxx
+  default_city_adcode: 110000 # Beijing
+
+tools:
+  packages:
+    - family_ai_voice_assistant.tools
+  exclude_functions:
+    - bing_news_search
+    - bing_top_news
+    - bing_search
+
+# logging:
+#   level: INFO
+#   path: xxxxxx
+
+# historystore:
+#   connection_str: mongodb://localhost:27017/
+#   database_name: chatbot
+#   collection_name: chat_history
+
+# filestore:
+#   destination: xxxxxx
+
+# telemetry:
+#   exporter_type: grpc
+#   endpoint: xxxxxx

@@ -25,6 +25,7 @@ opentelemetry-api = "*"
 opentelemetry-sdk = "*"
 opentelemetry-exporter-otlp = "*"
 scipy = "*"
+flask = "*"
 evdev = { version = "*", markers = "sys_platform == 'linux'" }
 
 [tool.poetry.scripts]
