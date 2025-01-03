@@ -194,18 +194,20 @@ class BasicAssistant(AssistantClient):
             WakerClient.is_waiting = False
 
     def _wait_and_interrupt_speech(self):
-        self._wait_for_interrupt_signal()
+        interrupt = self._wait_for_interrupt_signal()
+        if not interrupt:
+            return
         with self._speech_status_lock:
             if not self._speech_finished:
                 self._speech_client.stop()
 
-    def _wait_for_interrupt_signal(self):
+    def _wait_for_interrupt_signal(self) -> bool:
         interrupting_wakers = [
             waker for waker in self._wakers
             if waker.is_used_for_interrupting_ai_speeking()
         ]
         if len(interrupting_wakers) == 0:
-            return
+            return False
         with concurrent.futures.ThreadPoolExecutor() as executor:
             tasks = [
                 executor.submit(waker.wake) for waker in interrupting_wakers
@@ -213,3 +215,4 @@ class BasicAssistant(AssistantClient):
             concurrent.futures.wait(
                 tasks, return_when=concurrent.futures.ALL_COMPLETED
             )
+            return True
