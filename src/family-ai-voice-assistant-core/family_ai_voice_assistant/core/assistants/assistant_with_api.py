@@ -3,11 +3,11 @@ import requests
 
 from flask import Flask, request
 
-from .clients import AssistantClient
+from ..clients import AssistantClient
 from .basic_assistant import BasicAssistant
-from .configs import ConfigManager, AssistantApiConfig
-from .contracts import AskQuestionRequest
-from .logging import Loggers
+from ..configs import ConfigManager, AssistantApiConfig
+from ..contracts import ChatRequest
+from ..logging import Loggers
 
 
 class AssistantWithApi(AssistantClient):
@@ -28,10 +28,10 @@ class AssistantWithApi(AssistantClient):
             self.shutdown_server()
             return 'Server shutting down...'
 
-        @self._app.route('/ask_question', methods=['POST'])
-        def ask_question():
+        @self._app.route('/chat', methods=['POST'])
+        def chat():
             try:
-                data = AskQuestionRequest.from_dict(request.json)
+                data = ChatRequest.from_dict(request.json)
                 if (
                     data is None
                     or data.question is None

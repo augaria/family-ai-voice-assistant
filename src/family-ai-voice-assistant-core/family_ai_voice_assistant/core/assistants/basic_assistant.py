@@ -4,8 +4,8 @@ import concurrent.futures
 import threading
 from typing import Tuple
 
-from .contracts import TaskStatus
-from .clients import (
+from ..contracts import TaskStatus
+from ..clients import (
     AssistantClient,
     ClientManager,
     WakerClient,
@@ -16,12 +16,12 @@ from .clients import (
     SpeechClient,
     PlaySoundClient
 )
-from .helpers.constants_provider import ConstantsProvider
-from .utils.program_control import ProgramControl
-from .utils.ai_output_filter import AiOutputFilter
-from .telemetry import trace
-from .logging import Loggers, colored_print, Fore
-from .configs import ConfigManager, GeneralConfig
+from ..helpers.constants_provider import ConstantsProvider
+from ..utils.program_control import ProgramControl
+from ..utils.ai_output_filter import AiOutputFilter
+from ..telemetry import trace
+from ..logging import Loggers, colored_print, Fore
+from ..configs import ConfigManager, GeneralConfig
 
 
 class BasicAssistant(AssistantClient):
@@ -157,7 +157,7 @@ class BasicAssistant(AssistantClient):
         if self._play_sound_client:
             notice_sound_file = os.path.join(
                 os.path.dirname(__file__),
-                'resources/ding.wav'
+                '../resources/ding.wav'
             )
             self._play_sound_client.play(notice_sound_file)
 
@@ -192,7 +192,7 @@ class BasicAssistant(AssistantClient):
         with self._speech_status_lock:
             self._speech_finished = True
         if enable_interrupt:
-            WakerClient.is_waiting = False
+            WakerClient.stop_waiting()
 
     def _wait_and_interrupt_speech(self):
         interrupt = self._wait_for_interrupt_signal()

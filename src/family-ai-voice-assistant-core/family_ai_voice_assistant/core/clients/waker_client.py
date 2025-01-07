@@ -4,25 +4,50 @@ from select import select
 
 class WakerClient(ABC):
 
-    is_waiting = False
+    __is_waiting = False
 
     def wake(self):
-        WakerClient.is_waiting = True
+        self.start_waiting()
 
-        while WakerClient.is_waiting and (not self.check()):
+        while self.is_waiting() and (not self.check()):
             pass
 
-        WakerClient.is_waiting = False
+        self.stop_waiting()
 
     @abstractmethod
     def check(self) -> bool:
         pass
 
+    @abstractmethod
+    def is_used_for_interrupting_ai_speaking(self) -> bool:
+        pass
+
+    @staticmethod
+    def start_waiting():
+        WakerClient.__is_waiting = True
+
+    @staticmethod
+    def stop_waiting():
+        WakerClient.__is_waiting = False
+
+    @staticmethod
+    def is_waiting():
+        return WakerClient.__is_waiting
+
+
+class SilentWaker(WakerClient):
+
+    def is_used_for_interrupting_ai_speaking(self) -> bool:
+        return True
+
+
+class VoiceWaker(WakerClient):
+
     def is_used_for_interrupting_ai_speaking(self) -> bool:
         return False
 
 
-class KeyboardWaker(WakerClient):
+class KeyboardWaker(SilentWaker):
 
     def __init__(self):
         import platform
@@ -54,9 +79,6 @@ class KeyboardWaker(WakerClient):
 
         return False
 
-    def is_used_for_interrupting_ai_speaking(self) -> bool:
-        return True
-
 
 class InteractiveKeyboardWaker(WakerClient):
 
@@ -66,3 +88,6 @@ class InteractiveKeyboardWaker(WakerClient):
     def check(self) -> bool:
         input("press enter to ask a question...")
         return True
+
+    def is_used_for_interrupting_ai_speaking(self) -> bool:
+        return False

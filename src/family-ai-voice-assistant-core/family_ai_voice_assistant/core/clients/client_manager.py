@@ -29,6 +29,8 @@ class ClientManager(GlobalInstanceManager):
         return []
 
     def register_client(self, client_type: Type[T], instance: T):
+        if instance is None:
+            return
         client_list: List = super()._get_instance(
             identifier=client_type
         )

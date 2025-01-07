@@ -10,8 +10,9 @@ T = TypeVar('T')
 
 class GlobalInstanceManager(metaclass=SingletonMeta):
 
-    __instances: Dict[Any, T] = {}
-    __lock = threading.Lock()
+    def __init__(self):
+        self.__instances: Dict[Any, T] = {}
+        self.__lock = threading.Lock()
 
     @abstractmethod
     def get_instance(self, **kwargs) -> T:

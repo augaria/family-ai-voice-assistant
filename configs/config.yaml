@@ -84,7 +84,7 @@ builtintools:
   amap_api_key: xxxxxx
   default_city_adcode: 110000 # Beijing
 
-# tools loading
+# tools manager
 tools:
   packages:
     - family_ai_voice_assistant.tools

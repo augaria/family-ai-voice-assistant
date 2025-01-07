@@ -1,5 +1,5 @@
 from .client_manager import ClientManager  # noqa: F401
-from .waker_client import WakerClient  # noqa: F401
+from .waker_client import WakerClient, SilentWaker, VoiceWaker  # noqa: F401
 from .greeting_client import GreetingClient  # noqa: F401
 from .listening_client import ListeningClient  # noqa: F401
 from .recognition_client import RecognitionClient  # noqa: F401

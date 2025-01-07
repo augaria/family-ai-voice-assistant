@@ -1,4 +1,4 @@
-from family_ai_voice_assistant.core.clients import WakerClient
+from family_ai_voice_assistant.core.clients import VoiceWaker
 from family_ai_voice_assistant.core.configs import ConfigManager
 from family_ai_voice_assistant.core.helpers.common_helpers import (
     get_absolute_path_based_on_reference_file
@@ -8,7 +8,7 @@ from ...configs import SnowboyConfig
 from ._snowboy.snowboydecoder import HotwordDetector
 
 
-class SnowboyWaker(WakerClient):
+class SnowboyWaker(VoiceWaker):
 
     def __init__(self):
 
@@ -23,17 +23,17 @@ class SnowboyWaker(WakerClient):
         self._detector = HotwordDetector(config.model_path, sensitivity=0.5)
 
     def wake(self):
-        WakerClient.is_waiting = True
+        self.start_waiting()
         self._detector.start(
             detected_callback=self._detected_callback,
-            interrupt_check=lambda: not WakerClient.is_waiting,
+            interrupt_check=lambda: not self.is_waiting(),
             sleep_time=0.03
         )
         self._detector.terminate()
-        WakerClient.is_waiting = False
+        self.stop_waiting()
 
     def _detected_callback(self):
-        WakerClient.is_waiting = False
+        self.stop_waiting()
 
     def check(self) -> bool:
         pass

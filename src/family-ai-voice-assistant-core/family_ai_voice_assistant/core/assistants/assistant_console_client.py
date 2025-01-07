@@ -1,8 +1,8 @@
 import requests
 import argparse
 
-from .contracts import AskQuestionRequest
-from .logging import colored_print, Fore
+from ..contracts import ChatRequest
+from ..logging import colored_print, Fore
 
 
 def main():
@@ -29,7 +29,7 @@ def main():
 
     args = parser.parse_args()
 
-    url = f"http://{args.host}:{args.port}/ask_question"
+    url = f"http://{args.host}:{args.port}/chat"
 
     while True:
         colored_print("[User] ", Fore.CYAN, '')
@@ -37,7 +37,7 @@ def main():
         if question.lower() == 'q':
             break
 
-        data = AskQuestionRequest(
+        data = ChatRequest(
             question=question,
             speak_answer=args.speak
         ).to_dict()
@@ -46,7 +46,7 @@ def main():
             response = requests.post(url, json=data)
 
             if response.status_code == 200:
-                colored_print(f"[assistant] {response.text}", Fore.MAGENTA)
+                colored_print(f"[Assistant] {response.text}", Fore.MAGENTA)
             else:
                 colored_print(
                     (

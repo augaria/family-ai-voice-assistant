@@ -1,7 +1,10 @@
 import argparse
-import sounddevice  # noqa: F401 to avoid error when importing sound devices
 
 from family_ai_voice_assistant.core import set_yaml_config_path
+from family_ai_voice_assistant.core.client_register import (
+    ClientRegistor,
+    ClientSelector
+)
 
 parser = argparse.ArgumentParser(description="Start the Family AI Assistant.")
 parser.add_argument('config', type=str, help='the config file path')
@@ -11,96 +14,81 @@ args = parser.parse_args()
 # to make all configs available
 set_yaml_config_path(args.config)
 
-from family_ai_voice_assistant.core.clients import (  # noqa: E402
-    ClientManager,
-    WakerClient,
-    GreetingClient,
-    ListeningClient,
-    RecognitionClient,
-    LLMClient,
-    SpeechClient,
-    FileStoreClient,
-    HistoryStoreClient,
-    PlaySoundClient,
-    AssistantClient
-)
 
-from .impl.utils.client_selector import ClientSelector  # noqa: E402
+def map_configs_to_clients():
 
+    try:
+        from .impl.text_to_speech.play_sound_clients.sound_device import SoundDevice  # noqa: E501
+        ClientSelector().map_play_sound_config(None, SoundDevice)
+    except ImportError:
+        pass
 
-def register_clients():
+    try:
+        from .impl.configs import SnowboyConfig
+        from .impl.speech_to_text.waker_clients.snowboy_waker import SnowboyWaker  # noqa: E501
+        ClientSelector().map_voice_waker_config(SnowboyConfig, SnowboyWaker)
+    except ImportError:
+        pass
 
-    silent_waker = ClientSelector().silent_waker
-    if silent_waker:
-        ClientManager().register_client(
-            WakerClient,
-            silent_waker
-        )
-    voice_waker = ClientSelector().voice_waker
-    if voice_waker:
-        ClientManager().register_client(
-            WakerClient,
-            voice_waker
-        )
-    if not silent_waker and not voice_waker:
-        ClientManager().register_client(
-            WakerClient,
-            ClientSelector().default_waker
-        )
+    try:
+        from .impl.configs import PicovoiceConfig
+        from .impl.speech_to_text.waker_clients.picovoice_waker import PicovoiceWaker  # noqa: E501
+        ClientSelector().map_voice_waker_config(PicovoiceConfig, PicovoiceWaker)  # noqa: E501
+    except ImportError:
+        pass
 
-    ClientManager().register_client(
-        GreetingClient,
-        ClientSelector().greeting
-    )
+    try:
+        from .impl.configs import AzureSpeechConfig
+        from .impl.speech_to_text.recognition_clients.azure_recognition import AzureRecognition  # noqa: E501
+        ClientSelector().map_recognition_config(AzureSpeechConfig, AzureRecognition)  # noqa: E501
+    except ImportError:
+        pass
 
-    ClientManager().register_client(
-        ListeningClient,
-        ClientSelector().listening
-    )
+    try:
+        from .impl.configs import OpenAIWhisperConfig
+        from .impl.speech_to_text.recognition_clients.openai_whisper import OpenAIWhisper  # noqa: E501
+        ClientSelector().map_recognition_config(OpenAIWhisperConfig, OpenAIWhisper)  # noqa: E501
+    except ImportError:
+        pass
 
-    ClientManager().register_client(
-        RecognitionClient,
-        ClientSelector().recognition
-    )
+    try:
+        from .impl.configs import OllamaConfig
+        from .impl.llm_clients.ollama import Ollama
+        ClientSelector().map_llm_config(OllamaConfig, Ollama)
+    except ImportError:
+        pass
 
-    ClientManager().register_client(
-        LLMClient,
-        ClientSelector().llm
-    )
+    try:
+        from .impl.configs import AzureOpenAIConfig
+        from .impl.llm_clients.azure_open_ai import AzureOpenAI
+        ClientSelector().map_llm_config(AzureOpenAIConfig, AzureOpenAI)
+    except ImportError:
+        pass
 
-    ClientManager().register_client(
-        SpeechClient,
-        ClientSelector().speech
-    )
+    try:
+        from .impl.configs import OpenAIConfig
+        from .impl.llm_clients.open_ai import OpenAI
+        ClientSelector().map_llm_config(OpenAIConfig, OpenAI)
+    except ImportError:
+        pass
 
-    file_store = ClientSelector().file_store
-    if file_store:
-        ClientManager().register_client(
-            FileStoreClient,
-            file_store
-        )
+    try:
+        from .impl.configs import AzureSpeechConfig
+        from .impl.text_to_speech.speech_clients.azure_speech import AzureSpeech  # noqa: E501
+        ClientSelector().map_speech_config(AzureSpeechConfig, AzureSpeech)
+    except ImportError:
+        pass
 
-    history_store = ClientSelector().history_store
-    if history_store:
-        ClientManager().register_client(
-            HistoryStoreClient,
-            history_store
-        )
-
-    play_sound = ClientSelector().play_sound
-    if play_sound:
-        ClientManager().register_client(
-            PlaySoundClient,
-            play_sound
-        )
-
-    ClientManager().register_client(
-        AssistantClient,
-        ClientSelector().assistant
-    )
+    try:
+        from .impl.configs import CoquiTTSConfig
+        from .impl.text_to_speech.speech_clients.coqui_tts import CoquiTTS
+        ClientSelector().map_speech_config(CoquiTTSConfig, CoquiTTS)
+    except ImportError:
+        pass
 
 
 def main():
-    register_clients()
-    assistant = ClientManager().get_client(AssistantClient)
+    map_configs_to_clients()
+    ClientRegistor().register_clients_from_selector()
+    assistant = ClientRegistor().get_assistant()
     assistant.run()

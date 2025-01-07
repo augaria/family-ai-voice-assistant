@@ -3,7 +3,7 @@ name = "family-ai-voice-assistant-core"
 version = "0.1.0"
 description = ""
 authors = ["Augaria Ma <augaria@gmail.com>"]
-readme = "README.md"
+readme = "README_CN.md"
 
 include = [
     "family_ai_voice_assistant/core/resources/**"
@@ -30,7 +30,7 @@ Jinja2 = "*"
 evdev = { version = "*", markers = "sys_platform == 'linux'" }
 
 [tool.poetry.scripts]
-family_ai_voice_assistant_console = "family_ai_voice_assistant.core.assistant_console_client:main"
+family_ai_voice_assistant_console = "family_ai_voice_assistant.core.assistants.assistant_console_client:main"
 family_ai_voice_assistant_file_server = "family_ai_voice_assistant.core.clients.file_store_client:start_file_server"
 
 [build-system]

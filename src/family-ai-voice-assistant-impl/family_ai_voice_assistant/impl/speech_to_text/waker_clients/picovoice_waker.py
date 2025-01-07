@@ -2,13 +2,13 @@ import pvporcupine
 import pyaudio
 import struct
 
-from family_ai_voice_assistant.core.clients import WakerClient
+from family_ai_voice_assistant.core.clients import VoiceWaker
 from family_ai_voice_assistant.core.configs import ConfigManager
 
 from ...configs import PicovoiceConfig
 
 
-class PicovoiceWaker(WakerClient):
+class PicovoiceWaker(VoiceWaker):
 
     def __init__(self):
 
