@@ -6,9 +6,15 @@ from ..telemetry import trace
 
 
 class GreetingClient(ABC):
+    """
+    Abstract base class for a greeting client.
+    """
 
     @abstractmethod
     def words(self) -> str:
+        """
+        Get the greeting words.
+        """
         pass
 
 

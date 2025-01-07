@@ -78,16 +78,23 @@ builtintools:
 - **参数**: 无
 - **返回**: `Dict[str, str]` 包含 `time` 和 `timezone`。
 
+
+![alt text](../../screenshots/tools/get_time.png)
+
 #### 2. `switch_language`
 - **功能**: 切换对话语言。
 - **参数**: 
   - `language: Language` (可选) - `CHS` 表示中文, `EN` 表示英文。
 - **返回**: 无
+ 
+![alt text](../../screenshots/tools/switch_language.png)
 
 #### 3. `exit_program`
 - **功能**: 在最后一条消息后退出程序。
 - **参数**: 无
 - **返回**: 无
+
+![alt text](../../screenshots/tools/exit_program.png)
 
 ---
 
@@ -99,11 +106,15 @@ builtintools:
   - `script: str` - bash 脚本内容。
 - **返回**: `str` - 脚本输出或错误信息。
 
+![alt text](../../screenshots/tools/bash_script.png)
+
 #### 2. `execute_python_code`
 - **功能**: 使用 `exec()` 执行 Python 代码。
 - **参数**: 
   - `code: str` - Python 代码内容。
 - **返回**: `str` - 执行后的局部变量或错误信息。
+
+![alt text](../../screenshots/tools/python_script.png)
 
 ---
 
@@ -122,6 +133,9 @@ builtintools:
   - mongo_database
   - english_word_list_collection
 
+![alt text](../../screenshots/tools/add_english_word.png)
+
+
 #### 2. `review_english_words`
 - **功能**: 检索要复习的英文单词。选择最长时间未复习的单词。
 - **参数**: 
@@ -132,6 +146,8 @@ builtintools:
   - mongo_database
   - english_word_list_collection
 
+![alt text](../../screenshots/tools/review_english_words.png)
+
 #### 3. `count_english_word_list`
 - **功能**: 统计列表中的英文单词数量。
 - **参数**: 无
@@ -140,6 +156,10 @@ builtintools:
   - mongo_connection_str
   - mongo_database
   - english_word_list_collection
+
+![alt text](../../screenshots/tools/english_word_count.png)
+
+
 
 #### 4. `add_to_chinese_phrase_list`
 - **功能**: 将新的中文短语添加到列表。
@@ -155,6 +175,8 @@ builtintools:
   - mongo_database
   - chinese_phrase_list_collection
 
+![alt text](../../screenshots/tools/add_chinese_phrase.png)
+
 #### 5. `review_chinese_phrases`
 - **功能**: 检索要复习的中文短语。选择最长时间未复习的短语。
 - **参数**: 
@@ -165,6 +187,9 @@ builtintools:
   - mongo_database
   - chinese_phrase_list_collection
 
+![alt text](../../screenshots/tools/review_chinese_phrases.png)
+
+
 #### 6. `count_chinese_phrase_list`
 - **功能**: 统计列表中的中文短语数量。
 - **参数**: 无
@@ -173,6 +198,9 @@ builtintools:
   - mongo_connection_str
   - mongo_database
   - chinese_phrase_list_collection
+
+![alt text](../../screenshots/tools/chinese_phrase_count.png)
+
 
 #### 7. `add_to_memo`
 - **功能**: 将备忘录添加到列表。
@@ -186,6 +214,8 @@ builtintools:
   - mongo_database
   - memo_list_collection
 
+![alt text](../../screenshots/tools/add_to_momo.png)
+
 #### 8. `get_memos`
 - **功能**: 检索特定日期的备忘录。
 - **参数**: 
@@ -196,6 +226,8 @@ builtintools:
   - mongo_database
   - memo_list_collection
 
+![alt text](../../screenshots/tools/get_monos.png)
+
 #### 9. `count_down_timer`
 - **功能**: 启动倒计时计时器。
 - **参数**: 
@@ -203,12 +235,16 @@ builtintools:
   - `message: str` (可选)
 - **返回**: `Any`
 
+![alt text](../../screenshots/tools/count_down_timer.png)
+
 #### 10. `alarm_timer`
 - **功能**: 设置特定时间的闹钟。
 - **参数**: 
   - `target_time_str: str` - 格式 `%H:%M:%S`
   - `message: str` (可选)
 - **返回**: `Any`
+
+![alt text](../../screenshots/tools/alarm_timer.png)
 
 ---
 
@@ -224,6 +260,8 @@ builtintools:
   - amap_api_key
   - default_city_adcode
 
+![alt text](../../screenshots/tools/get_weather.png)
+
 ---
 
 ### search.py
@@ -236,6 +274,8 @@ builtintools:
 - **配置**:
   - google_search_api_key
 
+![alt text](../../screenshots/tools/google_search.png)
+
 #### 2. `bing_news_search`
 - **功能**: 使用 Bing API 搜索新闻。
 - **参数**: 
@@ -245,6 +285,8 @@ builtintools:
   - bing_subscription_key
   - bing_search_endpoint
 
+![alt text](../../screenshots/tools/bing_news_search.png)
+
 #### 3. `bing_top_news`
 - **功能**: 使用 Bing API 获取头条新闻。
 - **参数**: 无
@@ -252,6 +294,8 @@ builtintools:
 - **配置**:
   - bing_subscription_key
   - bing_search_endpoint
+
+![alt text](../../screenshots/tools/bing_top_news.png)
 
 #### 4. `bing_search`
 - **功能**: 执行 Bing 搜索。
@@ -261,6 +305,8 @@ builtintools:
 - **配置**:
   - bing_subscription_key
   - bing_search_endpoint
+
+![alt text](../../screenshots/tools/bing_search.png)
 
 ---
 
@@ -282,5 +328,8 @@ builtintools:
   - google_search_api_key
   - bing_subscription_key
   - bing_search_endpoint
+
+![alt text](../../screenshots/tools/daily_report.png)
+
 
 ---

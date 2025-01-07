@@ -9,14 +9,26 @@ from ..logging import Loggers
 
 
 class ListeningClient(ABC):
+    """
+    Abstract base class for a listening client.
+    """
 
     @abstractmethod
     def listen(self) -> Union[AudioData, Any]:
+        """
+        Listen for audio input and return audio data.
+        """
         pass
 
     @staticmethod
     @abstractmethod
     def get_wav_from_audio(audio: Union[AudioData, Any]) -> bytes:
+        """
+        Convert audio data to WAV format.
+
+        :param audio: The audio data to convert.
+        :return: The WAV byte data.
+        """
         pass
 
     @staticmethod
@@ -24,6 +36,12 @@ class ListeningClient(ABC):
     def get_wav_from_audio_list(
         audio_list: List[Union[AudioData, Any]]
     ) -> bytes:
+        """
+        Convert a list of audio data to WAV format.
+
+        :param audio_list: The list of audio data to convert.
+        :return: The WAV byte data.
+        """
         pass
 
 

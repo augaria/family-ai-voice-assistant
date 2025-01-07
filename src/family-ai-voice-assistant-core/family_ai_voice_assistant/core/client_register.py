@@ -17,11 +17,24 @@ from .client_selector import ClientSelector
 
 
 class ClientRegistor(metaclass=SingletonMeta):
+    """
+    Registers and manages clients for various functionalities in the system.
+    """
 
     def get_assistant(self) -> AssistantClient:
+        """
+        Retrieve the assistant client instance.
+
+        :return: An instance of AssistantClient.
+        """
+
         return ClientManager().get_client(AssistantClient)
 
     def register_clients_from_selector(self):
+        """
+        Register clients using the ClientSelector. Determines which clients to register  # noqa: E501
+        based on availability and defaults to ensure all necessary components are initialized.  # noqa: E501
+        """
 
         silent_waker = ClientSelector().get_silent_waker()
         if silent_waker:

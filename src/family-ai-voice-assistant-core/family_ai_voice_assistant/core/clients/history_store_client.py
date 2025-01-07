@@ -11,9 +11,18 @@ from ..logging import Loggers
 
 
 class HistoryStoreClient(ABC):
+    """
+    Manages storage of chat history records.
+    """
 
     @trace()
     def save(self, records: List[ChatRecord]):
+        """
+        Save the chat records to storage.
+
+        :param records: The list of chat records to save.
+        """
+
         serializable_records = []
         file_store_client = ClientManager().get_client(FileStoreClient)
 
@@ -41,6 +50,12 @@ class HistoryStoreClient(ABC):
         self,
         record: ChatRecord
     ) -> Tuple[SerilizableChatRecord, Tuple[str, bytes]]:
+        """
+        Generate data for storage from a chat record.
+
+        :param record: The chat record to process.
+        :return: A tuple of serializable chat record and wav file data.
+        """
 
         serializable_record = None
         wav_record = None
@@ -76,6 +91,11 @@ class HistoryStoreClient(ABC):
 
     @abstractmethod
     def _save_serilizable_records(self,  records: List[SerilizableChatRecord]):
+        """
+        Save serializable chat records.
+
+        :param records: The list of serializable chat records to save.
+        """
         pass
 
 

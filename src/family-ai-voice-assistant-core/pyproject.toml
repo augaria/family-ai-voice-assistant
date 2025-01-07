@@ -3,7 +3,7 @@ name = "family-ai-voice-assistant-core"
 version = "0.1.0"
 description = ""
 authors = ["Augaria Ma <augaria@gmail.com>"]
-readme = "README_CN.md"
+readme = "README.md"
 
 include = [
     "family_ai_voice_assistant/core/resources/**"

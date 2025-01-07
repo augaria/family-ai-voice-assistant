@@ -11,13 +11,25 @@ from ..logging import Loggers
 
 
 class FileStoreClient(ABC):
+    """
+    Abstract base class for a file storage client.
+    """
 
     @property
     def destination(self) -> str:
+        """
+        Get the destination path for file storage.
+        """
         return ConfigManager().get_instance(FileStoreConfig).destination
 
     @abstractmethod
     def save_to(self, relative_path: str, data: bytes):
+        """
+        Save data to the specified relative path.
+
+        :param relative_path: The relative path where data should be saved.
+        :param data: The data to save.
+        """
         pass
 
 

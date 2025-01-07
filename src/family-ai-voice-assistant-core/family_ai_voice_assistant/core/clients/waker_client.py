@@ -3,10 +3,17 @@ from select import select
 
 
 class WakerClient(ABC):
+    """
+    Abstract base class for a client that handles waking functionality.
+    """
 
     __is_waiting = False
 
     def wake(self):
+        """
+        Wake the system.
+        """
+
         self.start_waiting()
 
         while self.is_waiting() and (not self.check()):
@@ -16,22 +23,43 @@ class WakerClient(ABC):
 
     @abstractmethod
     def check(self) -> bool:
+        """
+        Check if the wake condition is met.
+
+        :return: True if the condition is met, otherwise False.
+        """
         pass
 
     @abstractmethod
     def is_used_for_interrupting_ai_speaking(self) -> bool:
+        """
+        Determine if the waker is used for interrupting AI speaking.
+
+        :return: True if used for interrupting, otherwise False.
+        """
         pass
 
     @staticmethod
     def start_waiting():
+        """
+        Start the waiting process.
+        """
         WakerClient.__is_waiting = True
 
     @staticmethod
     def stop_waiting():
+        """
+        Stop the waiting process.
+        """
         WakerClient.__is_waiting = False
 
     @staticmethod
     def is_waiting():
+        """
+        Check if the system is currently waiting.
+
+        :return: True if waiting, otherwise False.
+        """
         return WakerClient.__is_waiting
 
 

@@ -108,13 +108,14 @@
 
 ### Assistant API (Optional)
 
-**功能**: 提供 REST API 服务以便与外部系统集成。
+**功能**: 提供 REST API 服务以便与外部系统集成。参考：[Assistant API](src/family-ai-voice-assistant-core/README_CN.md#assistant-api)
 
 - **参数**:
   - **port**: API 服务监听的端口号。
 
 - **调用接口**:
   - 参照 [chat_request.py](src/family-ai-voice-assistant-core/family_ai_voice_assistant/core/contracts/chat_request.py)
+
 
 
 ### Wakers

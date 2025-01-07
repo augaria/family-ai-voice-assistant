@@ -9,6 +9,9 @@ from ..helpers.common_helpers import get_time_with_timezone
 
 
 class ChatSessionClient:
+    """
+    Manages a chat session, including message history and session state.
+    """
 
     def __init__(self):
         config = ConfigManager().get_instance(ChatSessionConfig)
@@ -40,6 +43,13 @@ class ChatSessionClient:
         serilizable: bool = False,
         wav_bytes: bytes = None
     ):
+        """
+        Add a message to the session history.
+
+        :param message: The message content as a dictionary.
+        :param serilizable: Whether the message should be serialized.
+        :param wav_bytes: Optional audio data associated with the message.
+        """
         record = ChatRecord(
             session_id=self._session_id,
             message=message,
@@ -51,9 +61,17 @@ class ChatSessionClient:
         self._history.append(record)
 
     def set_usage(self, usage: int):
+        """
+        Set the current usage of the session.
+
+        :param usage: The number of tokens used in the session.
+        """
         self._usage = usage
 
     def update_session(self):
+        """
+        Update the session, clearing history if usage exceeds a threshold.
+        """
         if self._max_usage > 0 and self._usage >= (int)(0.9 * self._max_usage):
             self._history.clear()
             if self._init_prompt is not None:
@@ -61,22 +79,44 @@ class ChatSessionClient:
 
     @property
     def messages(self) -> List[dict]:
+        """
+        Get the list of messages in the session history.
+        """
         return [record.message for record in self._history]
 
     @property
     def history(self) -> List[ChatRecord]:
+        """
+        Get the chat history records.
+        """
         return self._history
 
     @abstractmethod
     def add_system_message(self, content: str):
+        """
+        Add a system-generated message to the session.
+
+        :param content: The content of the system message.
+        """
         pass
 
     @abstractmethod
     def add_user_message(self, content: str, wav_bytes: bytes):
+        """
+        Add a user-generated message to the session.
+
+        :param content: The content of the user message.
+        :param wav_bytes: Optional audio data associated with the message.
+        """
         pass
 
     @abstractmethod
     def add_assistant_message(self, content: str):
+        """
+        Add an assistant-generated message to the session.
+
+        :param content: The content of the assistant message.
+        """
         pass
 
     @abstractmethod
@@ -86,4 +126,11 @@ class ChatSessionClient:
         content: str,
         tool_call_id: str = None
     ):
+        """
+        Add a tool-related message to the session.
+
+        :param tool_name: The name of the tool.
+        :param content: The content of the tool message.
+        :param tool_call_id: Optional identifier for the tool call.
+        """
         pass
