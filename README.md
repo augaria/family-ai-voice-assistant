@@ -47,13 +47,19 @@ The project supports voice and keyboard activation and can call various large mo
    pip install family-ai-voice-assistant-tools
    ```
 
-2. Install implementation packages (choose extensions as needed):
+2. Install the implementation package (choose extensions as needed):
 
    ```bash
-   pip install family-ai-voice-assistant-impl[pvporcupine, azure-speech, openai-whisper, openai, ollama, coqui-tts]
+   pip install 'family-ai-voice-assistant-impl[pvporcupine, azure-speech, openai-whisper, openai, ollama, coqui-tts]'
    ```
 
-   > **Note**: When installing `family-ai-voice-assistant-impl`, choose extensions based on the solutions you use. Snowboy voice activation is a built-in feature.
+   > **Note**: When installing `family-ai-voice-assistant-impl`, choose the appropriate extensions based on the solutions you are using. Snowboy's voice wake-up solution is built-in. For example, if you choose azure-speech for STT and TTS implementation, and openai for LLM implementation:
+
+      ```bash
+      pip install 'family-ai-voice-assistant-impl[azure-speech, openai]'
+      ```
+
+   > **Note**: coqui-tts requires python < 3.12 [coqui-ai/tts installation](https://github.com/coqui-ai/TTS#installation)
 
 ### MongoDB Installation (Optional)
 

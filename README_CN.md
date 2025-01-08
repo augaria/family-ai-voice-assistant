@@ -52,11 +52,17 @@
 2. 安装实现包（根据需求选择扩展）：
 
    ```bash
-   pip install family-ai-voice-assistant-impl[pvporcupine, azure-speech, openai-whisper, openai, ollama, coqui-tts]
+   pip install 'family-ai-voice-assistant-impl[pvporcupine, azure-speech, openai-whisper, openai, ollama, coqui-tts]'
    ```
 
-   > **注意**: 安装 `family-ai-voice-assistant-impl` 时，请根据实际使用的解决方案选择对应的扩展。Snowboy 的语音唤醒方案为内置功能。
+   > **注意**: 安装 `family-ai-voice-assistant-impl` 时，请根据实际使用的解决方案选择对应的扩展。Snowboy 的语音唤醒方案为内置功能。例如，选择 azure-speech 作为 STT 和 TTS 的实现，选择 openai 作为 LLM 的实现时:
 
+      ```bash
+      pip install 'family-ai-voice-assistant-impl[azure-speech, openai]'
+      ```
+
+   > **注意**: coqui-tts 要求 python < 3.12  [coqui-ai/tts installation](https://github.com/coqui-ai/TTS#installation)
+  
 
 ### Mongo DB 安装 (Optional)
 
