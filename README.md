@@ -289,3 +289,8 @@ pip install YOUR_TOOLS_PACKAGE
   - **endpoint**: Telemetry data endpoint, e.g., 192.168.1.100:4317
 
 ![alt text](screenshots/telemetry.png)
+
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.

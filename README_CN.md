@@ -294,3 +294,8 @@ pip install YOUR_TOOLS_PACKAGE
   - **endpoint**: 遥测数据终端点。例如: 192.168.1.100:4317
 
 ![alt text](screenshots/telemetry.png)
+
+
+## 许可证
+
+此项目基于 MIT 许可证授权。详细信息请参阅 [LICENSE](LICENSE) 文件。
