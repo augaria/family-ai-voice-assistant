@@ -1,8 +1,10 @@
 [tool.poetry]
 name = "family-ai-voice-assistant-impl"
 version = "0.1.0"
-description = ""
-authors = ["Augaria Ma <augaria@gmail.com>"]
+description = "Provides common implementations for Family AI Voice Assistant."
+authors = ["Augaria <augaria@163.com>"]
+repository = "https://github.com/augaria/family-ai-voice-assistant"
+license = "MIT"
 
 include = [
     "family_ai_voice_assistant/impl/resources/**",
