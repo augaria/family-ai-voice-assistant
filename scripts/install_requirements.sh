@@ -15,6 +15,7 @@ case $OS in
         sudo apt-get update
         sudo apt-get install -y --no-install-recommends \
             build-essential \
+            g++ \
             sox \
             alsa-utils \
             portaudio19-dev \
@@ -25,6 +26,7 @@ case $OS in
         sudo yum update
         sudo yum install -y \
             @development \
+            gcc-c++ \
             sox \
             alsa-utils \
             portaudio-devel \
@@ -36,6 +38,7 @@ case $OS in
         sudo dnf update
         sudo dnf install -y \
             @development-tools \
+            gcc-c++ \
             sox \
             alsa-utils \
             portaudio-devel \
@@ -47,6 +50,7 @@ case $OS in
         sudo pacman -Syu
         sudo pacman -S --noconfirm \
             base-devel \
+            gcc \
             sox \
             alsa-utils \
             portaudio \
