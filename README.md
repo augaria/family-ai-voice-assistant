@@ -33,7 +33,10 @@ The project supports voice and keyboard activation and can call various large mo
 
 - **Linux**:
   - Run the script `scripts/install_requirements.sh`.
-  - Alternatively, install missing audio libraries when installing Python packages based on error messages.
+  - If the Python environment was created using conda, you need to additionally execute：
+    ```bash
+    conda install -c conda-forge libstdcxx-ng
+    ```
 
 - **Windows & macOS**:
   - Install missing audio libraries when installing Python packages based on error messages.
@@ -60,6 +63,15 @@ The project supports voice and keyboard activation and can call various large mo
       ```
 
    > **Note**: coqui-tts requires python < 3.12 [coqui-ai/tts installation](https://github.com/coqui-ai/TTS#installation)
+
+
+### Device Access Permissions
+
+- **Linux**: Ensure the current user has permission to access audio and keyboard devices
+  ```bash
+  sudo usermod -aG audio $USER
+  sudo usermod -aG input $USER
+  ```
 
 ### MongoDB Installation (Optional)
 

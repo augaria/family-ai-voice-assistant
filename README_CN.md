@@ -35,7 +35,11 @@
 
 - **Linux**:
   - 执行脚本 `scripts/install_requirements.sh`。
-  - 或者在安装 Python 包时，根据报错信息安装缺少的音频库。
+  - 如果是使用conda创建的python环境，需额外执行：
+    ```bash
+    conda install -c conda-forge libstdcxx-ng
+    ```
+
 
 - **Windows & macOS**:
   - 在安装 Python 包时，根据报错信息安装缺少的音频库。
