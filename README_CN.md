@@ -67,6 +67,13 @@
 
    > **注意**: coqui-tts 要求 python < 3.12  [coqui-ai/tts installation](https://github.com/coqui-ai/TTS#installation)
   
+### 设备访问权限
+
+- **Linux**: 确保当前用户有权限访问音频和键盘设备
+  ```bash
+  sudo usermod -aG audio $USER
+  sudo usermod -aG input $USER
+  ```
 
 ### Mongo DB 安装 (Optional)
 
